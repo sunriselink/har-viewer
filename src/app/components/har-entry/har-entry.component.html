@@ -1,0 +1,12 @@
+<app-expansion-panel>
+    <app-expansion-panel-header>
+        <app-tag [color]="statusColor">{{ entry.response.status }}</app-tag>
+        <app-tag>{{ entry.request.method }}</app-tag>
+        <span>{{ entry.request.url }}</span>
+    </app-expansion-panel-header>
+
+    <app-expansion-panel-content>
+        <pre *ngIf="content; else empty">{{ content }}</pre>
+        <ng-template #empty>Empty</ng-template>
+    </app-expansion-panel-content>
+</app-expansion-panel>

@@ -1,0 +1,7 @@
+<ng-container *ngIf="harLog$ | async as harLog; else selectHAR">
+    <app-har-viewer [harLog]="harLog"></app-har-viewer>
+</ng-container>
+
+<ng-template #selectHAR>
+    <input type="file" (change)="loadHAR($event)" />
+</ng-template>

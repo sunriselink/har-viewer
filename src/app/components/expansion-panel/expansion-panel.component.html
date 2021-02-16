@@ -1,0 +1,7 @@
+<div (click)="toggle()">
+    <ng-content select="app-expansion-panel-header"></ng-content>
+</div>
+
+<div *ngIf="opened">
+    <ng-content select="app-expansion-panel-content"></ng-content>
+</div>
