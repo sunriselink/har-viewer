@@ -12,7 +12,7 @@ try {
     BuildTools.setInfoValue('GIT_BRANCH', branch);
 
     BuildTools.flush();
-    BuildTools.shell('npx ng build --prod', true);
+    BuildTools.shell('npx ng build --prod --base-href=har-viewer', true);
 } finally {
     BuildTools.clean();
 }
