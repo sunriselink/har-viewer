@@ -8,6 +8,7 @@ import { IHAR } from './types/har-log';
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
@@ -38,9 +39,8 @@ export class AppComponent implements OnInit {
         );
     }
 
-    public loadHAR(event: Event) {
-        const input = event.target as HTMLInputElement;
-        this.harFile$$.next(input.files[0]);
+    public loadHAR(file: File) {
+        this.harFile$$.next(file);
     }
 
     private showInfo(): void {
