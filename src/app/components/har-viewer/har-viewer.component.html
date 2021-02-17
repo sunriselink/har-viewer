@@ -1,3 +1,21 @@
-<ng-container *ngFor="let entry of harLog?.log?.entries">
+<div class="filters" [formGroup]="form">
+    <div class="filters__column">
+        <label class="checkbox">
+            <input type="checkbox" formControlName="successful" />
+            <span>Successful</span>
+        </label>
+        <label class="checkbox">
+            <input type="checkbox" formControlName="errors" />
+            <span>Errors</span>
+        </label>
+    </div>
+    <div class="filters__column">
+        <label class="textbox">
+            <input type="text" placeholder="Url" formControlName="url" />
+        </label>
+    </div>
+</div>
+
+<ng-container *ngFor="let entry of entries$ | async">
     <app-har-entry [entry]="entry"></app-har-entry>
 </ng-container>

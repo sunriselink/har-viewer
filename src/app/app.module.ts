@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
@@ -11,6 +12,7 @@ import { HarViewerComponent } from './components/har-viewer/har-viewer.component
 import { TagComponent } from './components/tag/tag.component';
 
 @NgModule({
+    imports: [BrowserModule, ReactiveFormsModule],
     declarations: [
         AppComponent,
         HarViewerComponent,
@@ -21,7 +23,6 @@ import { TagComponent } from './components/tag/tag.component';
         TagComponent,
         FileUploaderComponent,
     ],
-    imports: [BrowserModule],
     providers: [],
     bootstrap: [AppComponent],
 })
