@@ -12,14 +12,6 @@ export class HarEntryComponent {
     @Input()
     public entry: IHAREntry;
 
-    public get content(): string {
-        try {
-            return JSON.stringify(JSON.parse(this.entry.response.content.text), null, 2);
-        } catch {
-            return this.entry.response.content.text;
-        }
-    }
-
     public get statusColor(): TagColor {
         return this.entry.response.status >= 400 ? TagColor.RED : TagColor.BLUE;
     }

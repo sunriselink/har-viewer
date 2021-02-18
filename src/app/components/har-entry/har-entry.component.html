@@ -6,7 +6,6 @@
     </app-expansion-panel-header>
 
     <app-expansion-panel-content>
-        <pre *ngIf="content; else empty" class="har-content">{{ content }}</pre>
-        <ng-template #empty>Empty</ng-template>
+        <app-har-content [content]="entry.response?.content"></app-har-content>
     </app-expansion-panel-content>
 </app-expansion-panel>

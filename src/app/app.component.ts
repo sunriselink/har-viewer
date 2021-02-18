@@ -19,8 +19,6 @@ export class AppComponent implements OnInit {
     constructor(private fileService: FileService, private infoService: AppInfoService) {}
 
     public ngOnInit(): void {
-        this.showInfo();
-
         this.harLog$ = this.harFile$$.pipe(
             switchMap((file: File) => {
                 if (!file) {
@@ -41,9 +39,5 @@ export class AppComponent implements OnInit {
 
     public loadHAR(file: File) {
         this.harFile$$.next(file);
-    }
-
-    private showInfo(): void {
-        console.log(`HarViewer ${this.infoService.version} (${this.infoService.branch} ${this.infoService.commit})`);
     }
 }

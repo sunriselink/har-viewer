@@ -1,0 +1,7 @@
+<ng-container *ngIf="json$ | async as jsonContent; else textContent">
+    <ngx-json-viewer [json]="jsonContent" [expanded]="false"></ngx-json-viewer>
+</ng-container>
+
+<ng-template #textContent>
+    <pre>{{ text$ | async }}</pre>
+</ng-template>
