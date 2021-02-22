@@ -1,1 +1,7 @@
-{{ version }}
+<ng-container *ngIf="newVersionAvailable$ | async; else emptyUpdates">
+    <span>{{ version }} - Refresh for update</span>
+</ng-container>
+
+<ng-template #emptyUpdates>
+    <span>{{ version }}</span>
+</ng-template>

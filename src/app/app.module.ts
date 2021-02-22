@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 
+import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { ExpansionPanelContentComponent } from './components/expansion-panel-content/expansion-panel-content.component';
 import { ExpansionPanelHeaderComponent } from './components/expansion-panel-header/expansion-panel-header.component';
@@ -16,7 +18,15 @@ import { TagComponent } from './components/tag/tag.component';
 import { VersionComponent } from './components/version/version.component';
 
 @NgModule({
-    imports: [BrowserModule, ReactiveFormsModule, NgxJsonViewerModule],
+    imports: [
+        BrowserModule,
+        ReactiveFormsModule,
+        NgxJsonViewerModule,
+        ServiceWorkerModule.register('ngsw-worker.js', {
+            enabled: environment.production,
+            registrationStrategy: 'registerImmediately',
+        }),
+    ],
     declarations: [
         AppComponent,
         HarViewerComponent,
