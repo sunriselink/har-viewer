@@ -1,0 +1,31 @@
+name: HAR Viewer Deployer
+
+on: workflow_dispatch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build:prod
+      - name: Set up GitHub Pages repository
+        run: |
+          mkdir output
+          git config --global user.email "noreply@github.com"
+          git config --global user.name "${GITHUB_ACTOR}"
+          git clone https://${{secrets.ACCESS_TOKEN}}@github.com/sunriselink/har-viewer.git --branch gh-pages --single-branch ./output
+      - name: Deploy
+        working-directory: output
+        run: |
+          git rm -rf .
+          cp -rv ../dist/har-viewer/** .
+          git add --all
+          git commit -m "Update $(date +'%Y-%m-%d %H:%M:%S')"
+          git push
