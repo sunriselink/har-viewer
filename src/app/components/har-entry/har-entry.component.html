@@ -6,6 +6,17 @@
     </app-expansion-panel-header>
 
     <app-expansion-panel-content>
-        <app-har-content [content]="entry.response?.content"></app-har-content>
+        <app-har-request-data
+            title="Request"
+            [headers]="entry.request.headers"
+            [queryData]="entry.request.queryString"
+            [postData]="entry.request.postData?.text"
+        ></app-har-request-data>
+
+        <app-har-request-data
+            title="Response"
+            [headers]="entry.response.headers"
+            [responseData]="entry.response.content?.text"
+        ></app-har-request-data>
     </app-expansion-panel-content>
 </app-expansion-panel>

@@ -1,0 +1,14 @@
+.title {
+  font-weight: bold;
+  margin: 8px 0;
+
+  &_main {
+    text-align: center;
+    text-decoration: underline;
+  }
+}
+
+.headers,
+.query {
+  font-family: monospace;
+}

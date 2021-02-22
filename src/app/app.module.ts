@@ -10,6 +10,7 @@ import { ExpansionPanelComponent } from './components/expansion-panel/expansion-
 import { FileUploaderComponent } from './components/file-uploader/file-uploader.component';
 import { HarContentComponent } from './components/har-content/har-content.component';
 import { HarEntryComponent } from './components/har-entry/har-entry.component';
+import { HarRequestDataComponent } from './components/har-request-data/har-request-data.component';
 import { HarViewerComponent } from './components/har-viewer/har-viewer.component';
 import { TagComponent } from './components/tag/tag.component';
 import { VersionComponent } from './components/version/version.component';
@@ -27,6 +28,7 @@ import { VersionComponent } from './components/version/version.component';
         FileUploaderComponent,
         HarContentComponent,
         VersionComponent,
+        HarRequestDataComponent,
     ],
     providers: [],
     bootstrap: [AppComponent],

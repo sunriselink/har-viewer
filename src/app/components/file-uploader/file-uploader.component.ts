@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
     selector: 'app-file-uploader',
@@ -7,6 +7,9 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angul
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FileUploaderComponent {
+    @Input()
+    public buttonText: string = 'SELECT FILE';
+
     @Output()
     public fileSelect: EventEmitter<File> = new EventEmitter<File>();
 

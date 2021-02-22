@@ -19,6 +19,7 @@ export interface IHAREntryRequest {
     url: string;
     headers: IHAREntryKeyValue[];
     queryString: IHAREntryKeyValue[];
+    postData: IHAREntryData;
 }
 
 export interface IHAREntryResponse {
@@ -26,10 +27,10 @@ export interface IHAREntryResponse {
     statusText: string;
     redirectURL: string;
     headers: IHAREntryKeyValue[];
-    content: IHAREntryResponseContent;
+    content: IHAREntryData;
 }
 
-export interface IHAREntryResponseContent {
+export interface IHAREntryData {
     size: number;
     mimeType: string;
     text: string;

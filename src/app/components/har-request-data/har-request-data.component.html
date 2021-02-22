@@ -1,0 +1,25 @@
+<div class="title title_main">{{ title }}</div>
+
+<ng-container *ngIf="headers?.length > 0">
+    <div class="title">Headers</div>
+    <div *ngFor="let header of headers" class="headers">
+        <span>{{ header.name }}: {{ header.value }}</span>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="queryData?.length > 0">
+    <div class="title">Query string</div>
+    <div *ngFor="let query of queryData" class="query">
+        <span>{{ query.name }}: {{ query.value }}</span>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="postData">
+    <div class="title">POST Data</div>
+    <app-har-content [content]="postData"></app-har-content>
+</ng-container>
+
+<ng-container *ngIf="responseData">
+    <div class="title">Response Data</div>
+    <app-har-content [content]="responseData"></app-har-content>
+</ng-container>
