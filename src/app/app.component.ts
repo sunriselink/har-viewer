@@ -12,6 +12,8 @@ import { catchAndLogError } from './utils/catch-and-log-error';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
+    public fileOver: boolean = false;
+
     public harLog$: Observable<IHAR>;
 
     private harFile$$: BehaviorSubject<File> = new BehaviorSubject<File>(null);

@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { ExpansionPanelContentComponent } from './components/expansion-panel-content/expansion-panel-content.component';
 import { ExpansionPanelHeaderComponent } from './components/expansion-panel-header/expansion-panel-header.component';
 import { ExpansionPanelComponent } from './components/expansion-panel/expansion-panel.component';
+import { FileDropZoneDirective } from './components/file-drop-zone.directive';
 import { FileUploaderComponent } from './components/file-uploader/file-uploader.component';
 import { HarContentComponent } from './components/har-content/har-content.component';
 import { HarEntryComponent } from './components/har-entry/har-entry.component';
@@ -39,6 +40,7 @@ import { VersionComponent } from './components/version/version.component';
         HarContentComponent,
         VersionComponent,
         HarRequestDataComponent,
+        FileDropZoneDirective,
     ],
     providers: [],
     bootstrap: [AppComponent],
