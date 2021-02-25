@@ -4,7 +4,7 @@ body {
 }
 
 body {
-  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-family: "JetBrains Mono", Consolas, monospace;
   margin: 0;
 }
 
@@ -13,7 +13,7 @@ body {
   padding: 8px;
   align-items: center;
 
-  input[type='checkbox'] {
+  input[type="checkbox"] {
     margin-right: 8px;
     width: 16px;
     height: 16px;
@@ -25,7 +25,7 @@ body {
   flex-direction: column;
   padding: 8px;
 
-  input[type='text'] {
+  input[type="text"] {
     padding: 4px;
   }
 }
