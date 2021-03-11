@@ -31,7 +31,8 @@ jobs:
           git push
       - name: Send Telegram Notification
         run: |
+          VERSION=$(node -e "console.log(require('./package.json').version)")
           METHOD="https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage"
-          TEXT="HAR Viewer deployed by ${GITHUB_ACTOR}"
+          TEXT="HAR Viewer v${VERSION} deployed by ${GITHUB_ACTOR}"
           ADMIN_ID="${{ secrets.TG_ADMIN_ID }}"
           curl -s -o /dev/null -X POST ${METHOD} -d text="${TEXT}" -d chat_id=${ADMIN_ID}
