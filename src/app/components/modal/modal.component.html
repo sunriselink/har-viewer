@@ -1,0 +1,8 @@
+<div class="modal">
+    <div class="modal__header">
+        <div class="modal__close" (click)="close()">&times;</div>
+    </div>
+    <div class="modal__body">
+        <pre>{{ text$ | async }}</pre>
+    </div>
+</div>

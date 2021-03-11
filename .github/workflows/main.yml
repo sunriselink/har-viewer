@@ -20,18 +20,18 @@ jobs:
           mkdir output
           git config --global user.email "noreply@github.com"
           git config --global user.name "${GITHUB_ACTOR}"
-          git clone https://${{secrets.ACCESS_TOKEN}}@github.com/sunriselink/har-viewer.git --branch gh-pages --single-branch ./output
+          git clone https://${{ secrets.ACCESS_TOKEN }}@github.com/sunriselink/har-viewer.git --branch gh-pages --single-branch ./output
       - name: Deploy
         working-directory: output
         run: |
-          git rm -rf .
+          git rm -rfq .
           cp -rv ../dist/har-viewer/** .
           git add --all
           git commit -m "Update $(date +'%Y-%m-%d %H:%M:%S')"
           git push
       - name: Send Telegram Notification
         run: |
-          METHOD="https://api.telegram.org/bot${{secrets.TG_BOT_TOKEN}}/sendMessage"
+          METHOD="https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage"
           TEXT="HAR Viewer deployed by ${GITHUB_ACTOR}"
-          ADMIN_ID="${{secrets.TG_ADMIN_ID}}"
+          ADMIN_ID="${{ secrets.TG_ADMIN_ID }}"
           curl -s -o /dev/null -X POST ${METHOD} -d text="${TEXT}" -d chat_id=${ADMIN_ID}

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
+import { mapTo, startWith } from 'rxjs/operators';
 import { AppInfoService } from '../../services/app-info.service';
 
 @Component({
@@ -12,19 +13,15 @@ import { AppInfoService } from '../../services/app-info.service';
 export class VersionComponent implements OnInit {
     public newVersionAvailable$: Observable<boolean>;
 
-    private newVersionAvailable$$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
     constructor(private infoService: AppInfoService, private swUpdate: SwUpdate) {}
 
     public get version(): string {
-        return this.infoService.production ? `v${this.infoService.version}` : 'v0.0.0';
+        return this.infoService.production ? `v${this.infoService.version}` : 'develop';
     }
 
     public ngOnInit(): void {
-        this.newVersionAvailable$ = this.newVersionAvailable$$.asObservable();
-
+        this.newVersionAvailable$ = this.swUpdate.available.pipe(mapTo(true), startWith(false));
         this.showInfo();
-        this.activateUpdater();
     }
 
     private showInfo() {
@@ -34,9 +31,5 @@ export class VersionComponent implements OnInit {
 
             console.log(`HarViewer ${this.version} (${branch} ${commit})`);
         }
-    }
-
-    private activateUpdater() {
-        this.swUpdate.available.subscribe(() => this.newVersionAvailable$$.next(true));
     }
 }
