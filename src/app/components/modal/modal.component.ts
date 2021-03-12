@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, HostListener, Renderer2 } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    HostBinding,
+    HostListener,
+    Renderer2,
+    ViewChild,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { ModalService } from './modal.service';
@@ -12,6 +20,9 @@ const NO_SCROLL_CLASS = 'no-scroll';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalComponent {
+    @ViewChild('scrollContainer', { read: ElementRef })
+    public scrollContainerRef: ElementRef;
+
     @HostBinding('class.opened')
     public opened: boolean = false;
 
@@ -36,11 +47,16 @@ export class ModalComponent {
             this.opened = opened;
 
             if (opened) {
+                this.scrollContainer.scrollTop = 0;
                 this.renderer.addClass(document.body, NO_SCROLL_CLASS);
             } else {
                 this.renderer.removeClass(document.body, NO_SCROLL_CLASS);
             }
         });
+    }
+
+    public get scrollContainer(): HTMLElement {
+        return this.scrollContainerRef.nativeElement as HTMLElement;
     }
 
     public close(): void {
