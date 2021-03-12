@@ -1,4 +1,4 @@
-<app-expansion-panel>
+<app-expansion-panel #panel>
     <app-expansion-panel-header>
         <app-tag [color]="statusColor">{{ entry.response.status }}</app-tag>
         <app-tag>{{ entry.request.method }}</app-tag>
@@ -6,17 +6,19 @@
     </app-expansion-panel-header>
 
     <app-expansion-panel-content>
-        <app-har-request-data
-            title="Request"
-            [headers]="entry.request.headers"
-            [queryData]="entry.request.queryString"
-            [postData]="entry.request.postData?.text"
-        ></app-har-request-data>
+        <ng-container *ngIf="panel.opened">
+            <app-har-request-data
+                header="Request"
+                [headers]="entry.request.headers"
+                [queryData]="entry.request.queryString"
+                [postData]="entry.request.postData?.text"
+            ></app-har-request-data>
 
-        <app-har-request-data
-            title="Response"
-            [headers]="entry.response.headers"
-            [responseData]="entry.response.content?.text"
-        ></app-har-request-data>
+            <app-har-request-data
+                header="Response"
+                [headers]="entry.response.headers"
+                [responseData]="entry.response.content?.text"
+            ></app-har-request-data>
+        </ng-container>
     </app-expansion-panel-content>
 </app-expansion-panel>

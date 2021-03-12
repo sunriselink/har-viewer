@@ -1,6 +1,15 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
+import { truncate } from '../../utils/truncate';
+import { ModalService } from '../modal/modal.service';
+
+interface ITextContent {
+    full: string;
+    limited: string;
+}
+
+const STRING_LENGTH_LIMIT = 1024;
 
 @Component({
     selector: 'app-har-content',
@@ -15,34 +24,57 @@ export class HarContentComponent implements OnInit {
     }
 
     public json$: Observable<any>;
-    public text$: Observable<string>;
+    public text$: Observable<ITextContent>;
 
     private content$$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
+    constructor(private modalService: ModalService) {}
+
     public ngOnInit(): void {
         this.text$ = this.content$$.pipe(
-            filter((text: string) => !!text),
+            map((text: string) => text ?? ''),
             distinctUntilChanged(),
+            map((text: string) => this.mapText(text)),
         );
 
-        this.json$ = this.text$.pipe(map((content: string) => this.tryParseJson(content)));
+        this.json$ = this.text$.pipe(map((content: ITextContent) => this.tryParseJSON(content.full)));
     }
 
-    private tryParseJson(text: string): any {
-        if (!text) {
+    private mapText(text: string): ITextContent {
+        return {
+            full: text,
+            limited: truncate(text, STRING_LENGTH_LIMIT),
+        };
+    }
+
+    private tryParseJSON(text: string): any {
+        if (!this.isJSON(text)) {
             return null;
         }
 
-        text = text.trim();
+        try {
+            return JSON.parse(text);
+        } catch {
+            return null;
+        }
+    }
 
-        if (text.startsWith('{') || text.startsWith('[')) {
-            try {
-                return JSON.parse(text);
-            } catch {
-                return null;
-            }
+    private isJSON(text: string): boolean {
+        text = text?.trim();
+
+        if (!text) {
+            return false;
         }
 
-        return null;
+        return (
+            text !== '{}' &&
+            text !== '[]' &&
+            (text.startsWith('{') || text.startsWith('[')) &&
+            (text.endsWith('}') || text.endsWith(']'))
+        );
+    }
+
+    public showMore(text: string) {
+        this.modalService.open(text);
     }
 }

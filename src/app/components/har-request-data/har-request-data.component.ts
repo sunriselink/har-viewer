@@ -9,7 +9,7 @@ import { IHAREntryKeyValue } from '../../types/har-log';
 })
 export class HarRequestDataComponent {
     @Input()
-    public title: string;
+    public header: string;
 
     @Input()
     public headers: IHAREntryKeyValue[];

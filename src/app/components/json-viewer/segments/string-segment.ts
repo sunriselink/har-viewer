@@ -1,3 +1,4 @@
+import { truncate } from '../../../utils/truncate';
 import { Segment, SegmentBuilder } from './segment';
 
 const STRING_LENGTH_LIMIT = 128;
@@ -7,7 +8,7 @@ export class StringSegment extends Segment {
         super(key, value, 'string');
 
         if (value.length > STRING_LENGTH_LIMIT) {
-            value = `${value.substring(0, STRING_LENGTH_LIMIT)}...`;
+            value = truncate(value, STRING_LENGTH_LIMIT);
             this._limited = true;
         }
 

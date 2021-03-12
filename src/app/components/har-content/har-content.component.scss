@@ -1,3 +1,13 @@
 pre {
   overflow-y: auto;
 }
+
+.static-text {
+  position: relative;
+}
+
+.flat-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}

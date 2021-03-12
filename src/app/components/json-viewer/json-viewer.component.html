@@ -13,7 +13,9 @@
             class="segment__description segment__type-{{ segment.type }}"
         >
             <span>{{ segment.description }}</span>
-            <button *ngIf="segment.limited" class="segment__more" (click)="showMore(segment)">Show more...</button>
+            <button *ngIf="segment.limited" class="flat-button segment__more" (click)="showMore(segment)">
+                Show more...
+            </button>
         </span>
     </div>
     <div *ngIf="segment.expandable && segment.expanded" class="segment__children">
