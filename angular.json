@@ -31,8 +31,8 @@
                   "with": "src/environments/environment.prod.ts"
                 },
                 {
-                  "replace": "src/app-info.ts",
-                  "with": "src/app-info.prod.ts"
+                  "replace": "src/app-vars.ts",
+                  "with": "src/app-vars.prod.ts"
                 }
               ],
               "baseHref": "/har-viewer/",
@@ -78,6 +78,26 @@
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
             "browserTarget": "har-viewer:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/test.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "ci": {
+              "browsers": "ChromeHeadlessCI",
+              "watch": false,
+              "sourceMap": false,
+              "progress": false
+            }
           }
         }
       }

@@ -3,31 +3,31 @@ const fs = require('fs');
 const { resolve } = require('path');
 const { execSync } = require('child_process');
 
-const APP_INFO_FILE = resolve('./src/app-info.ts');
-const APP_INFO_PROD_FILE = resolve('./src/app-info.prod.ts');
+const APP_VARS_FILE = resolve('./src/app-vars.ts');
+const APP_VARS_PROD_FILE = resolve('./src/app-vars.prod.ts');
 
 class BuildTools {
     static init() {
-        this.infoData = fs.readFileSync(APP_INFO_FILE, 'utf-8');
+        this.vars = fs.readFileSync(APP_VARS_FILE, 'utf-8');
     }
 
-    static setInfoValue(variable, value) {
-        this.infoData = this.infoData.replace(`{{ ${variable} }}`, value);
+    static setVariable(variable, value) {
+        this.vars = this.vars.replace(`{{ ${variable} }}`, value);
     }
 
     static flush() {
-        fs.writeFileSync(APP_INFO_PROD_FILE, this.infoData, 'utf-8');
+        fs.writeFileSync(APP_VARS_PROD_FILE, this.vars, 'utf-8');
     }
 
     static clean() {
-        fs.unlinkSync(APP_INFO_PROD_FILE);
+        fs.unlinkSync(APP_VARS_PROD_FILE);
     }
 
     static shell(command, interactive = false) {
         if (interactive) {
             execSync(command, { stdio: 'inherit' });
         } else {
-            const stdout = execSync(command, { encoding: 'utf-8' });
+            const stdout = execSync(command, { encoding: 'utf8' });
             return stdout && stdout.trim();
         }
     }

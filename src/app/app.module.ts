@@ -3,6 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
+import { APP_VARS, APP_VARS_TOKEN } from '../app-vars';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { ExpansionPanelContentComponent } from './components/expansion-panel-content/expansion-panel-content.component';
@@ -44,7 +45,12 @@ import { FileDropZoneDirective } from './directives/file-drop-zone.directive';
         JsonViewerComponent,
         ModalComponent,
     ],
-    providers: [],
+    providers: [
+        {
+            provide: APP_VARS_TOKEN,
+            useValue: APP_VARS,
+        },
+    ],
     bootstrap: [AppComponent],
 })
 export class AppModule {}
