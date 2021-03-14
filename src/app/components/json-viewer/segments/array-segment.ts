@@ -1,7 +1,7 @@
 import { Segment, SegmentBuilder } from './segment';
 
 export class ArraySegment extends Segment {
-    constructor(key: string, value: any) {
+    constructor(key: string, value: any[]) {
         super(key, value, 'array');
         this._expandable = true;
         this._description = `Array[${value.length}] ${JSON.stringify(value)}`;

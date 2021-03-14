@@ -8,12 +8,12 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 })
 export class FileUploaderComponent {
     @Input()
-    public buttonText: string = 'SELECT FILE';
+    public buttonText = 'SELECT FILE';
 
     @Output()
     public fileSelect: EventEmitter<File> = new EventEmitter<File>();
 
-    public onFileSelect(event: Event) {
+    public onFileSelect(event: Event): void {
         this.fileSelect.emit((event.target as HTMLInputElement).files[0]);
     }
 }

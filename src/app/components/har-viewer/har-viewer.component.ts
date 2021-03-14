@@ -57,11 +57,7 @@ export class HarViewerComponent implements OnInit {
         const url = entry.request?.url?.toLowerCase();
         const searchString = filters.url?.trim().toLowerCase();
 
-        if (searchString && url && !url.includes(searchString)) {
-            return false;
-        }
-
-        return true;
+        return searchString && url ? url.includes(searchString) : true;
     }
 
     private createForm(): FormGroup {

@@ -13,21 +13,21 @@ export class FileDropZoneDirective implements OnInit, OnDestroy {
     public fileOver: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     @HostListener('dragover', ['$event'])
-    public onDragOver(event: DragEvent) {
+    public onDragOver(event: DragEvent): void {
         event.preventDefault();
         event.stopPropagation();
         this.fileOver$$.next(true);
     }
 
     @HostListener('dragleave', ['$event'])
-    public onDragLeave(event: DragEvent) {
+    public onDragLeave(event: DragEvent): void {
         event.preventDefault();
         event.stopPropagation();
         this.fileOver$$.next(false);
     }
 
     @HostListener('drop', ['$event'])
-    public onDrop(event: DragEvent) {
+    public onDrop(event: DragEvent): void {
         event.preventDefault();
         event.stopPropagation();
 

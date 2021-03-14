@@ -4,7 +4,7 @@ import { Segment, SegmentBuilder } from './segment';
 const STRING_LENGTH_LIMIT = 128;
 
 export class StringSegment extends Segment {
-    constructor(key: string, value: any) {
+    constructor(key: string, value: string) {
         super(key, value, 'string');
 
         if (value.length > STRING_LENGTH_LIMIT) {

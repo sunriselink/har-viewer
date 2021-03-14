@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExpansionPanelComponent {
-    public opened: boolean = false;
+    public opened = false;
 
     public toggle(): void {
         this.opened = !this.opened;

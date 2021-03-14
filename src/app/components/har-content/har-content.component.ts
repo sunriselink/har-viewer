@@ -74,7 +74,7 @@ export class HarContentComponent implements OnInit {
         );
     }
 
-    public showMore(text: string) {
+    public showMore(text: string): void {
         this.modalService.open(text);
     }
 }

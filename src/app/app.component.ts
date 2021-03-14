@@ -12,7 +12,7 @@ import { catchAndLogError } from './utils/catch-and-log-error';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
-    public fileOver: boolean = false;
+    public fileOver = false;
 
     public harLog$: Observable<IHAR>;
 
@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
         this.harLog$ = this.harFile$$.pipe(switchMap((file: File) => this.parseFile(file)));
     }
 
-    public loadHAR(file: File) {
+    public loadHAR(file: File): void {
         this.harFile$$.next(file);
     }
 

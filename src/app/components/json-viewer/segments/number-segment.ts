@@ -1,7 +1,7 @@
 import { Segment, SegmentBuilder } from './segment';
 
 export class NumberSegment extends Segment {
-    constructor(key: string, value: any) {
+    constructor(key: string, value: number) {
         super(key, value, 'number');
         this._description = `${value}`;
     }

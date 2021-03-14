@@ -24,7 +24,7 @@ export class ModalComponent {
     public scrollContainerRef: ElementRef;
 
     @HostBinding('class.opened')
-    public opened: boolean = false;
+    public opened = false;
 
     @HostListener('click', ['$event'])
     public onClick(event: MouseEvent): void {

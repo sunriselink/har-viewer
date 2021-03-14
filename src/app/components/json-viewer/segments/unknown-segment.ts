@@ -1,7 +1,7 @@
 import { Segment, SegmentBuilder } from './segment';
 
 export class UnknownSegment extends Segment {
-    constructor(key: string, value: string) {
+    constructor(key: string, value: any) {
         super(key, value, 'unknown');
 
         try {
@@ -17,7 +17,7 @@ export class UnknownSegmentBuilder extends SegmentBuilder<UnknownSegment> {
         return new UnknownSegment(key, value);
     }
 
-    public canBuild(value: any): boolean {
+    public canBuild(): boolean {
         return true;
     }
 }

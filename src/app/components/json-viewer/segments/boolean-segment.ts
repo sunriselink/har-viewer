@@ -1,7 +1,7 @@
 import { Segment, SegmentBuilder } from './segment';
 
 export class BooleanSegment extends Segment {
-    constructor(key: string, value: any) {
+    constructor(key: string, value: boolean) {
         super(key, value, 'boolean');
         this._description = `${value}`;
     }
