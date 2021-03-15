@@ -5,7 +5,6 @@
   "printWidth": 120,
   "quoteProps": "consistent",
   "semi": true,
-  "singleQuote": true,
   "tabWidth": 4,
   "trailingComma": "all",
   "useTabs": false,
@@ -14,8 +13,13 @@
     {
       "files": ["*.json", "*.scss", "*.yml", "*.webmanifest"],
       "options": {
-        "tabWidth": 2,
-        "singleQuote": false
+        "tabWidth": 2
+      }
+    },
+    {
+      "files": ["*.js", "*.ts"],
+      "options": {
+        "singleQuote": true
       }
     }
   ]
