@@ -14,5 +14,5 @@ try {
     BuildTools.flush();
     BuildTools.shell('npx ng build --prod', true);
 } finally {
-    BuildTools.clean();
+    BuildTools.restore();
 }

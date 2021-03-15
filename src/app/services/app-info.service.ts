@@ -1,29 +1,23 @@
 import { Inject, Injectable } from '@angular/core';
-import { APP_VARS_TOKEN } from '../../app-vars';
-import { environment } from '../../environments/environment';
+import { APP_ENVIRONMENT_TOKEN, IEnvironment } from '../../environments/environment.interface';
 
 @Injectable({ providedIn: 'root' })
 export class AppInfoService {
-    constructor(@Inject(APP_VARS_TOKEN) private appVars: Map<string, string>) {}
+    constructor(@Inject(APP_ENVIRONMENT_TOKEN) private env: IEnvironment) {}
 
     public get production(): boolean {
-        return environment.production;
+        return this.env.production;
     }
 
     public get version(): string {
-        return this.getValue('APP_VERSION');
+        return this.env.version;
     }
 
     public get commit(): string {
-        return this.getValue('GIT_COMMIT_HASH');
+        return this.env.commit;
     }
 
     public get branch(): string {
-        return this.getValue('GIT_BRANCH');
-    }
-
-    private getValue(variable: string): string {
-        const value: string = this.appVars.get(variable);
-        return value === `{{ ${variable} }}` ? '' : value;
+        return this.env.branch;
     }
 }

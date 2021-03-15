@@ -1,26 +1,25 @@
-const fs = require('fs');
-
+const { readFileSync, writeFileSync } = require('fs');
 const { resolve } = require('path');
 const { execSync } = require('child_process');
 
-const APP_VARS_FILE = resolve('./src/app-vars.ts');
-const APP_VARS_PROD_FILE = resolve('./src/app-vars.prod.ts');
+const ENV_FILE = resolve('./src/environments/environment.prod.ts');
 
 class BuildTools {
     static init() {
-        this.vars = fs.readFileSync(APP_VARS_FILE, 'utf-8');
+        this.envContent = readFileSync(ENV_FILE, 'utf-8');
+        this.backup = this.envContent;
     }
 
     static setVariable(variable, value) {
-        this.vars = this.vars.replace(`{{ ${variable} }}`, value);
+        this.envContent = this.envContent.replace(`{{ ${variable} }}`, value);
     }
 
     static flush() {
-        fs.writeFileSync(APP_VARS_PROD_FILE, this.vars, 'utf-8');
+        writeFileSync(ENV_FILE, this.envContent, 'utf-8');
     }
 
-    static clean() {
-        fs.unlinkSync(APP_VARS_PROD_FILE);
+    static restore() {
+        writeFileSync(ENV_FILE, this.backup, 'utf-8');
     }
 
     static shell(command, interactive = false) {
