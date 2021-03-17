@@ -14,6 +14,6 @@ export class ObjectSegmentBuilder extends SegmentBuilder<ObjectSegment> {
     }
 
     public canBuild(value: any): boolean {
-        return typeof value === 'object' && value != null && !Array.isArray(value);
+        return typeof value === 'object' && value !== null && !Array.isArray(value) && !(value instanceof Date);
     }
 }

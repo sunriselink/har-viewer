@@ -4,6 +4,7 @@ describe('Utils: truncate', () => {
     it('should return original value when falsely', () => {
         expect(truncate(null, 0)).toBeNull();
         expect(truncate(void 0, 0)).toBeUndefined();
+        expect(truncate('', 0)).toBe('');
     });
 
     it('should return original value when less limit', () => {

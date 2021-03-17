@@ -6,6 +6,10 @@ export class UnknownSegment extends Segment {
 
         try {
             this._description = JSON.stringify(value);
+
+            if (this._description === void 0) {
+                this._description = 'undefined';
+            }
         } catch {
             this._description = `${value}`;
         }

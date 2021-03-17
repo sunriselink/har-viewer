@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { FileService } from './services/file.service';
+import { BlobService } from './services/blob.service';
 import { IHAR } from './types/har-log';
 import { catchAndLogError } from './utils/catch-and-log-error';
 
@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
 
     private harFile$$: BehaviorSubject<File> = new BehaviorSubject<File>(null);
 
-    constructor(private fileService: FileService) {}
+    constructor(private fileService: BlobService) {}
 
     public ngOnInit(): void {
         this.harLog$ = this.harFile$$.pipe(switchMap((file: File) => this.parseFile(file)));
@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
             return of(null);
         }
 
-        return this.fileService.readFileContent(file).pipe(
+        return this.fileService.readContent(file).pipe(
             map((content: string) => JSON.parse(content)),
             catchAndLogError(),
         );

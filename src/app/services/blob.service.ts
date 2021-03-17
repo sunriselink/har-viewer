@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class FileService {
-    public readFileContent(file: File): Observable<string> {
+export class BlobService {
+    public readContent(blob: Blob): Observable<string> {
         return new Observable<string>((subscriber: Subscriber<string>) => {
             const reader = new FileReader();
 
@@ -17,7 +17,7 @@ export class FileService {
                 subscriber.complete();
             };
 
-            reader.readAsText(file);
+            reader.readAsText(blob);
         });
     }
 }
