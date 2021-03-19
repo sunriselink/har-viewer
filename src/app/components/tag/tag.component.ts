@@ -1,9 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-export enum TagColor {
-    BLUE = 'blue',
-    RED = 'red',
-}
+export type TagColor = 'blue' | 'red';
 
 @Component({
     selector: 'app-tag',
@@ -13,5 +10,5 @@ export enum TagColor {
 })
 export class TagComponent {
     @Input()
-    public color: TagColor = TagColor.BLUE;
+    public color: TagColor = 'blue';
 }

@@ -13,6 +13,6 @@ export class HarEntryComponent {
     public entry: IHAREntry;
 
     public get statusColor(): TagColor {
-        return this.entry.response.status >= 400 ? TagColor.RED : TagColor.BLUE;
+        return this.entry.response.status >= 400 ? 'red' : 'blue';
     }
 }
