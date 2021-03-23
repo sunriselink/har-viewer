@@ -23,12 +23,12 @@ class BuildTools {
     }
 
     static shell(command, interactive = false) {
-        if (interactive) {
-            execSync(command, { stdio: 'inherit' });
-        } else {
-            const stdout = execSync(command, { encoding: 'utf8' });
-            return stdout && stdout.trim();
-        }
+        const stdout = execSync(command, {
+            encoding: 'utf8',
+            stdio: interactive ? 'inherit' : void 0,
+        });
+
+        return stdout && stdout.trim();
     }
 }
 
