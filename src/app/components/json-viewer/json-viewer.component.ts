@@ -27,6 +27,12 @@ export class JsonViewerComponent implements OnInit {
         this.segments$ = this.json$$.pipe(map((json: any) => this.jsonViewerService.createSegments(json)));
     }
 
+    public toggle(segment: Segment): void {
+        if (segment.expandable) {
+            segment.toggle();
+        }
+    }
+
     public showMore(segment: Segment): void {
         this.modalService.open(segment.value as string);
     }

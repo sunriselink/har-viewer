@@ -3,7 +3,7 @@
         class="segment__header"
         [class.segment__header_expandable]="segment.expandable"
         [class.segment__header_expanded]="segment.expanded"
-        (click)="segment.expandable ? segment.toggle() : false"
+        (click)="toggle(segment)"
     >
         <div *ngIf="segment.expandable" class="segment__toggle"></div>
         <span class="segment__key">{{ segment.key }}</span>

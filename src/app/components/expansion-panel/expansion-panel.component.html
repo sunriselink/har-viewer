@@ -1,4 +1,5 @@
 <div (click)="toggle()">
+    <div *ngIf="showToggle" class="toggle" [class.toggle_opened]="opened"></div>
     <ng-content select="app-expansion-panel-header"></ng-content>
 </div>
 

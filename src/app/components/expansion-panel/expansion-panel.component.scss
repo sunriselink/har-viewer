@@ -1,3 +1,24 @@
 :host {
   display: block;
+
+  &.show-toggle {
+    padding-left: 16px;
+  }
+}
+
+.toggle {
+  position: absolute;
+
+  &::after {
+    content: "►";
+    display: inline-block;
+    font-size: 13px;
+    margin-left: -12px;
+    transform: translateY(-2px);
+    transition: transform 0.1s ease-in;
+  }
+
+  &_opened::after {
+    transform: rotate(90deg);
+  }
 }

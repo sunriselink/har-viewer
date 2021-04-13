@@ -1,25 +1,49 @@
 <div class="title title_main">{{ header }}</div>
 
 <ng-container *ngIf="headers?.length > 0">
-    <div class="title">Headers</div>
-    <div *ngFor="let header of headers" class="headers">
-        <span>{{ header.name }}: {{ header.value }}</span>
-    </div>
+    <app-expansion-panel [showToggle]="true">
+        <app-expansion-panel-header>
+            <div class="title">Headers</div>
+        </app-expansion-panel-header>
+        <app-expansion-panel-content>
+            <div *ngFor="let header of sortByKey(headers)" class="headers">
+                <span>{{ header.name }}: {{ header.value }}</span>
+            </div>
+        </app-expansion-panel-content>
+    </app-expansion-panel>
 </ng-container>
 
 <ng-container *ngIf="queryData?.length > 0">
-    <div class="title">Query string</div>
-    <div *ngFor="let query of queryData" class="query">
-        <span>{{ query.name }}: {{ query.value }}</span>
-    </div>
+    <app-expansion-panel [showToggle]="true" [initialOpened]="true">
+        <app-expansion-panel-header>
+            <div class="title">Query string</div>
+        </app-expansion-panel-header>
+        <app-expansion-panel-content>
+            <div *ngFor="let query of sortByKey(queryData)" class="query">
+                <span>{{ query.name }}: {{ query.value }}</span>
+            </div>
+        </app-expansion-panel-content>
+    </app-expansion-panel>
 </ng-container>
 
 <ng-container *ngIf="postData">
-    <div class="title">POST Data</div>
-    <app-har-content [content]="postData"></app-har-content>
+    <app-expansion-panel [showToggle]="true" [initialOpened]="true">
+        <app-expansion-panel-header>
+            <div class="title">POST Data</div>
+        </app-expansion-panel-header>
+        <app-expansion-panel-content>
+            <app-har-content [content]="postData"></app-har-content>
+        </app-expansion-panel-content>
+    </app-expansion-panel>
 </ng-container>
 
 <ng-container *ngIf="responseData">
-    <div class="title">Response Data</div>
-    <app-har-content [content]="responseData"></app-har-content>
+    <app-expansion-panel [showToggle]="true" [initialOpened]="true">
+        <app-expansion-panel-header>
+            <div class="title">Response Data</div>
+        </app-expansion-panel-header>
+        <app-expansion-panel-content>
+            <app-har-content [content]="responseData"></app-har-content>
+        </app-expansion-panel-content>
+    </app-expansion-panel>
 </ng-container>

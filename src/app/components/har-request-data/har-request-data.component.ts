@@ -22,4 +22,8 @@ export class HarRequestDataComponent {
 
     @Input()
     public responseData: string;
+
+    public sortByKey(array: IHAREntryKeyValue[]): IHAREntryKeyValue[] {
+        return array?.slice().sort((a, b) => a.name.localeCompare(b.name));
+    }
 }

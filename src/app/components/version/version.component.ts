@@ -29,7 +29,7 @@ export class VersionComponent implements OnInit {
             const branch = this.infoService.branch;
             const commit = this.infoService.commit;
 
-            console.log(`HarViewer ${this.version} (${branch} ${commit})`);
+            console.log(`HAR Viewer ${this.version} (${branch} ${commit})`);
         }
     }
 }

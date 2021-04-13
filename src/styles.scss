@@ -43,3 +43,16 @@ body {
   line-height: 24px;
   opacity: 0.9;
 }
+
+*::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #dddddd;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #666666;
+}

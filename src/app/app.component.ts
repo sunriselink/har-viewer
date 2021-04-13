@@ -18,22 +18,22 @@ export class AppComponent implements OnInit {
 
     private harFile$$: BehaviorSubject<File> = new BehaviorSubject<File>(null);
 
-    constructor(private fileService: BlobService) {}
+    constructor(private blobService: BlobService) {}
 
     public ngOnInit(): void {
-        this.harLog$ = this.harFile$$.pipe(switchMap((file: File) => this.parseFile(file)));
+        this.harLog$ = this.harFile$$.pipe(switchMap((file: File) => this.readFile(file)));
     }
 
     public loadHAR(file: File): void {
         this.harFile$$.next(file);
     }
 
-    private parseFile(file: File) {
+    private readFile(file: File) {
         if (!file) {
             return of(null);
         }
 
-        return this.fileService.readContent(file).pipe(
+        return this.blobService.readContent(file).pipe(
             map((content: string) => JSON.parse(content)),
             catchAndLogError(),
         );
