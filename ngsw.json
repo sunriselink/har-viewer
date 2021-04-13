@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1615583646400,
+  "timestamp": 1618341880212,
   "index": "/har-viewer/index.html",
   "assetGroups": [
     {
@@ -13,11 +13,11 @@
       "urls": [
         "/har-viewer/favicon.ico",
         "/har-viewer/index.html",
-        "/har-viewer/main.d1c6d6bf81f24e82d036.js",
+        "/har-viewer/main.ff8040bf95828ccc8ac7.js",
         "/har-viewer/manifest.webmanifest",
-        "/har-viewer/polyfills.bf99d438b005d57b2b31.js",
-        "/har-viewer/runtime.359d5ee4682f20e936e9.js",
-        "/har-viewer/styles.8a36ce36093ee53e3b16.css"
+        "/har-viewer/polyfills.74d163d9763404b8ccef.js",
+        "/har-viewer/runtime.7b63b9fd40098a2e8207.js",
+        "/har-viewer/styles.fc5540180ccaf812bb23.css"
       ],
       "patterns": []
     },
@@ -29,35 +29,23 @@
         "ignoreVary": true
       },
       "urls": [
-        "/har-viewer/assets/icons/icon-128x128.png",
-        "/har-viewer/assets/icons/icon-144x144.png",
-        "/har-viewer/assets/icons/icon-152x152.png",
         "/har-viewer/assets/icons/icon-192x192.png",
-        "/har-viewer/assets/icons/icon-384x384.png",
-        "/har-viewer/assets/icons/icon-512x512.png",
-        "/har-viewer/assets/icons/icon-72x72.png",
-        "/har-viewer/assets/icons/icon-96x96.png"
+        "/har-viewer/assets/icons/icon-512x512.png"
       ],
       "patterns": []
     }
   ],
   "dataGroups": [],
   "hashTable": {
-    "/har-viewer/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
-    "/har-viewer/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
-    "/har-viewer/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
-    "/har-viewer/assets/icons/icon-192x192.png": "1abd80d431a237a853ce38147d8c63752f10933b",
-    "/har-viewer/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
-    "/har-viewer/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
-    "/har-viewer/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
-    "/har-viewer/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
-    "/har-viewer/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/har-viewer/index.html": "80e3998c850540a7e649ecdf6c945da3be933b1c",
-    "/har-viewer/main.d1c6d6bf81f24e82d036.js": "88768a9432c959c0ef2c42c08585f3c3b2865990",
-    "/har-viewer/manifest.webmanifest": "7c0c2a1e31688baedd069784c7f17a24ee3167c8",
-    "/har-viewer/polyfills.bf99d438b005d57b2b31.js": "763cd3b34dfa4600ebb9d9588ec7116988e98920",
-    "/har-viewer/runtime.359d5ee4682f20e936e9.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
-    "/har-viewer/styles.8a36ce36093ee53e3b16.css": "b776fcedc9b1472d3cd27d697c497dadb1c7f96a"
+    "/har-viewer/assets/icons/icon-192x192.png": "7d32f7daed0694db6012fe2120c7dec6dba96416",
+    "/har-viewer/assets/icons/icon-512x512.png": "4f796a4589078f28434899ce658a42650d2d39c3",
+    "/har-viewer/favicon.ico": "5b390a5b870207333d35d645c67596c402cbd9e0",
+    "/har-viewer/index.html": "d3347b6653f270b2e5ad7710c90970d8cb9221aa",
+    "/har-viewer/main.ff8040bf95828ccc8ac7.js": "3b67f257661ea09fab692e5c9db16e9d7673f4c8",
+    "/har-viewer/manifest.webmanifest": "8ade69a3612e8b05e4c6c7768d1d2e96e4605fa5",
+    "/har-viewer/polyfills.74d163d9763404b8ccef.js": "763cd3b34dfa4600ebb9d9588ec7116988e98920",
+    "/har-viewer/runtime.7b63b9fd40098a2e8207.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
+    "/har-viewer/styles.fc5540180ccaf812bb23.css": "2b28ed84f3914ea429fb6d913b0624ae4a4b58c5"
   },
   "navigationUrls": [
     {
