@@ -7,8 +7,38 @@
 
     <app-expansion-panel-content>
         <ng-container *ngIf="panel.opened">
+            <div class="common-params">
+                <ng-template
+                    [ngTemplateOutlet]="keyValue"
+                    [ngTemplateOutletContext]="{ key: 'Status', value: statusText }"
+                ></ng-template>
+
+                <ng-container *ngIf="entry._fromCache === 'disk'">
+                    <ng-template
+                        [ngTemplateOutlet]="keyValue"
+                        [ngTemplateOutletContext]="{ key: 'Cache', value: 'Disk' }"
+                    ></ng-template>
+                </ng-container>
+
+                <ng-template
+                    [ngTemplateOutlet]="keyValue"
+                    [ngTemplateOutletContext]="{ key: 'Server IP', value: entry.serverIPAddress }"
+                ></ng-template>
+
+                <ng-template
+                    [ngTemplateOutlet]="keyValue"
+                    [ngTemplateOutletContext]="{ key: 'Date', value: entry.startedDateTime }"
+                ></ng-template>
+
+                <ng-template
+                    [ngTemplateOutlet]="keyValue"
+                    [ngTemplateOutletContext]="{ key: 'Time', value: (entry.time?.toFixed(0) || 0) + ' ms' }"
+                ></ng-template>
+            </div>
+
             <app-har-request-data
                 header="Request"
+                [bodySize]="entry.request.bodySize || entry.request.postData?.size"
                 [headers]="entry.request.headers"
                 [queryData]="entry.request.queryString"
                 [postData]="entry.request.postData?.text"
@@ -16,9 +46,17 @@
 
             <app-har-request-data
                 header="Response"
+                [bodySize]="entry.response.bodySize || entry.response.content?.size"
                 [headers]="entry.response.headers"
                 [responseData]="entry.response.content?.text"
             ></app-har-request-data>
         </ng-container>
     </app-expansion-panel-content>
 </app-expansion-panel>
+
+<ng-template #keyValue let-key="key" let-value="value">
+    <div>
+        <span class="bold">{{ key }}:&nbsp;</span>
+        <span>{{ value }}</span>
+    </div>
+</ng-template>

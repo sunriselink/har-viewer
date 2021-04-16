@@ -1,4 +1,4 @@
-<div class="title title_main">{{ header }}</div>
+<div class="title title_main">{{ header }} {{ bodySize >= 0 ? "(" + (bodySize | size) + ")" : "" }}</div>
 
 <ng-container *ngIf="headers?.length > 0">
     <app-expansion-panel [showToggle]="true">

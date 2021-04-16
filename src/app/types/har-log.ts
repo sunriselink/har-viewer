@@ -7,6 +7,7 @@ export interface IHARLog {
 }
 
 export interface IHAREntry {
+    _fromCache: 'disk';
     request: IHAREntryRequest;
     response: IHAREntryResponse;
     serverIPAddress: string;
@@ -15,6 +16,7 @@ export interface IHAREntry {
 }
 
 export interface IHAREntryRequest {
+    bodySize: number;
     method: string;
     url: string;
     headers: IHAREntryKeyValue[];
@@ -23,8 +25,8 @@ export interface IHAREntryRequest {
 }
 
 export interface IHAREntryResponse {
+    bodySize: number;
     status: number;
-    statusText: string;
     redirectURL: string;
     headers: IHAREntryKeyValue[];
     content: IHAREntryData;

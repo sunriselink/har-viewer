@@ -3,7 +3,7 @@ name: HAR Viewer Tests
 on:
   push:
     branches:
-      - master
+      - "**"
 
 jobs:
   tests:

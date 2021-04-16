@@ -18,6 +18,7 @@ import { ModalComponent } from './components/modal/modal.component';
 import { TagComponent } from './components/tag/tag.component';
 import { VersionComponent } from './components/version/version.component';
 import { FileDropZoneDirective } from './directives/file-drop-zone.directive';
+import { SizePipe } from './pipes/size.pipe';
 
 @NgModule({
     imports: [
@@ -43,6 +44,7 @@ import { FileDropZoneDirective } from './directives/file-drop-zone.directive';
         FileDropZoneDirective,
         JsonViewerComponent,
         ModalComponent,
+        SizePipe,
     ],
     providers: [
         {
