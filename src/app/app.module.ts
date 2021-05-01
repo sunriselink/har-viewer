@@ -19,6 +19,7 @@ import { TagComponent } from './components/tag/tag.component';
 import { VersionComponent } from './components/version/version.component';
 import { FileDropZoneDirective } from './directives/file-drop-zone.directive';
 import { SizePipe } from './pipes/size.pipe';
+import { FiltersPanelComponent } from './components/filters-panel/filters-panel.component';
 
 @NgModule({
     imports: [
@@ -45,6 +46,7 @@ import { SizePipe } from './pipes/size.pipe';
         JsonViewerComponent,
         ModalComponent,
         SizePipe,
+        FiltersPanelComponent,
     ],
     providers: [
         {

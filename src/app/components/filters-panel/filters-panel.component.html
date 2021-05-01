@@ -1,0 +1,13 @@
+<app-expansion-panel #panel>
+    <app-expansion-panel-header>
+        <div class="header">
+            <div class="toggle" [class.toggle_opened]="panel.opened"></div>
+            <label class="textbox" (click)="$event.stopPropagation()">
+                <input type="text" placeholder="Url regex" />
+            </label>
+        </div>
+    </app-expansion-panel-header>
+    <app-expansion-panel-content>
+        <h1>Hey</h1>
+    </app-expansion-panel-content>
+</app-expansion-panel>
