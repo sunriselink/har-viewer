@@ -1,9 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { Unsafe } from '../types/unsafe';
 
-@Pipe({ name: 'size' })
+@Pipe({
+    name: 'size',
+    standalone: true,
+})
 export class SizePipe implements PipeTransform {
-    public transform(value: number): string {
-        value = value || 0;
+    public transform(value: Unsafe<number>): string {
+        value = value ?? 0;
         let unit = 'B';
 
         if (value >= 1024) {

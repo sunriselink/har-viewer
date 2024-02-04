@@ -1,7 +1,8 @@
+import { JSONValue } from '../../../types/json-value';
 import { Segment, SegmentBuilder } from './segment';
 
 export class UnknownSegment extends Segment {
-    constructor(key: string, value: any) {
+    constructor(key: string, value: JSONValue) {
         super(key, value, 'unknown');
 
         try {
@@ -16,8 +17,8 @@ export class UnknownSegment extends Segment {
     }
 }
 
-export class UnknownSegmentBuilder extends SegmentBuilder<UnknownSegment> {
-    public build(key: string, value: any): UnknownSegment {
+export class UnknownSegmentBuilder extends SegmentBuilder<JSONValue, UnknownSegment> {
+    public build(key: string, value: JSONValue): UnknownSegment {
         return new UnknownSegment(key, value);
     }
 

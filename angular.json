@@ -2,7 +2,6 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
-  "defaultProject": "har-viewer",
   "projects": {
     "har-viewer": {
       "projectType": "application",
@@ -11,14 +10,14 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/har-viewer",
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "browser": "src/main.ts",
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "aot": true,
+            "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets", "src/manifest.webmanifest"],
             "styles": ["src/styles.scss"],
             "scripts": []
@@ -32,74 +31,66 @@
                 }
               ],
               "baseHref": "/har-viewer/",
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
                 }
               ],
-              "serviceWorker": true,
-              "ngswConfigPath": "ngsw-config.json"
+              "outputHashing": "all",
+              "serviceWorker": "ngsw-config.json"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "har-viewer:build",
             "liveReload": false,
             "host": "0.0.0.0",
             "disableHostCheck": true
           },
           "configurations": {
             "production": {
-              "browserTarget": "har-viewer:build:production"
+              "buildTarget": "har-viewer:build:production"
+            },
+            "development": {
+              "buildTarget": "har-viewer:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "har-viewer:build"
+            "buildTarget": "har-viewer:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": ["src/favicon.ico", "src/assets", "src/manifest.webmanifest"],
             "styles": ["src/styles.scss"],
             "scripts": []
-          },
-          "configurations": {
-            "ci": {
-              "browsers": "ChromeHeadlessCI",
-              "watch": false,
-              "sourceMap": false,
-              "progress": false
-            }
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.component.html"]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }
@@ -109,7 +100,8 @@
     "@schematics/angular:component": {
       "style": "scss",
       "skipTests": true,
-      "changeDetection": "OnPush"
+      "changeDetection": "OnPush",
+      "displayBlock": true
     },
     "@schematics/angular:class": {
       "skipTests": true
@@ -123,14 +115,17 @@
     "@schematics/angular:interceptor": {
       "skipTests": true
     },
-    "@schematics/angular:module": {
+    "@schematics/angular:pipe": {
       "skipTests": true
     },
-    "@schematics/angular:pipe": {
+    "@schematics/angular:resolver": {
       "skipTests": true
     },
     "@schematics/angular:service": {
       "skipTests": true
     }
+  },
+  "cli": {
+    "schematicCollections": ["@angular-eslint/schematics"]
   }
 }

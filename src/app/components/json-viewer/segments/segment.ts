@@ -1,13 +1,15 @@
-export abstract class Segment {
+import { JSONValue } from '../../../types/json-value';
+
+export abstract class Segment<T extends JSONValue = JSONValue> {
     protected _key: string;
-    protected _description: string;
-    protected _value: any;
+    protected _description: string = '';
+    protected _value: T;
     protected _expandable: boolean;
     protected _expanded: boolean;
     protected _limited: boolean;
     protected _type: string;
 
-    protected constructor(key: string, value: any, type: string) {
+    protected constructor(key: string, value: T, type: string) {
         this._key = key;
         this._value = value;
         this._expandable = false;
@@ -32,7 +34,7 @@ export abstract class Segment {
         return this._expandable;
     }
 
-    public get value(): any {
+    public get value(): T {
         return this._value;
     }
 
@@ -49,7 +51,7 @@ export abstract class Segment {
     }
 }
 
-export abstract class SegmentBuilder<T extends Segment> {
-    public abstract build(key: string, value: any): T;
-    public abstract canBuild(value: any): boolean;
+export abstract class SegmentBuilder<TValue extends JSONValue, TSegment extends Segment<TValue>> {
+    public abstract build(key: string, value: TValue): TSegment;
+    public abstract canBuild(value: JSONValue): boolean;
 }

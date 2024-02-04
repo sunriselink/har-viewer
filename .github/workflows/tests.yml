@@ -9,14 +9,14 @@ jobs:
   tests:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: 12
+          node-version-file: ".nvmrc"
       - name: Install dependencies
         run: npm ci
       - name: Run unit tests
-        run: npm run test:ci
+        run: npm test -- --browsers=ChromeHeadless --no-watch --no-progress --no-source-map
       - name: Run lint tests
         run: npm run lint

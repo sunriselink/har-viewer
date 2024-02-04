@@ -1,25 +1,25 @@
-<div class="title title_main">{{ header }} {{ bodySize >= 0 ? "(" + (bodySize | size) + ")" : "" }}</div>
+<div class="title title_main">{{ header }} {{ hasBody ? '(' + (bodySize | size) + ')' : '' }}</div>
 
-<ng-container *ngIf="headers?.length > 0">
+<ng-container *ngIf="headers?.length">
     <app-expansion-panel [showToggle]="true">
         <app-expansion-panel-header>
             <div class="title">Headers</div>
         </app-expansion-panel-header>
         <app-expansion-panel-content>
-            <div *ngFor="let header of sortByKey(headers)" class="headers">
+            <div *ngFor="let header of headers | sortByKey" class="headers">
                 <span>{{ header.name }}: {{ header.value }}</span>
             </div>
         </app-expansion-panel-content>
     </app-expansion-panel>
 </ng-container>
 
-<ng-container *ngIf="queryData?.length > 0">
+<ng-container *ngIf="queryData?.length">
     <app-expansion-panel [showToggle]="true" [initialOpened]="true">
         <app-expansion-panel-header>
             <div class="title">Query string</div>
         </app-expansion-panel-header>
         <app-expansion-panel-content>
-            <div *ngFor="let query of sortByKey(queryData)" class="query">
+            <div *ngFor="let query of queryData | sortByKey" class="query">
                 <span>{{ query.name }}: {{ query.value }}</span>
             </div>
         </app-expansion-panel-content>

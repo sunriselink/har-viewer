@@ -1,17 +1,17 @@
-<div class="filters" [formGroup]="form">
+<div class="filters">
     <div class="filters__column">
         <label class="checkbox">
-            <input type="checkbox" formControlName="successful" />
+            <input type="checkbox" [formControl]="form.controls.successful" />
             <span>Successful</span>
         </label>
         <label class="checkbox">
-            <input type="checkbox" formControlName="errors" />
+            <input type="checkbox" [formControl]="form.controls.errors" />
             <span>Errors</span>
         </label>
     </div>
     <div class="filters__column">
         <label class="textbox">
-            <input type="text" placeholder="Url" formControlName="url" />
+            <input type="text" placeholder="Url" [formControl]="form.controls.url" />
         </label>
     </div>
 </div>

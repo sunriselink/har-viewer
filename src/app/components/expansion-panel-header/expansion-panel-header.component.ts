@@ -2,8 +2,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
     selector: 'app-expansion-panel-header',
+    standalone: true,
     templateUrl: './expansion-panel-header.component.html',
-    styleUrls: ['./expansion-panel-header.component.scss'],
+    styleUrl: './expansion-panel-header.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExpansionPanelHeaderComponent {}

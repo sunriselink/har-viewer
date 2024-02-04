@@ -1,51 +1,48 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { debounceTime, map, startWith } from 'rxjs/operators';
+import { AsyncPipe, NgForOf } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { combineLatest, debounceTime, map, Observable, ReplaySubject, startWith } from 'rxjs';
 import { IHAR, IHAREntry } from '../../types/har-log';
-
-interface IFilter {
-    successful: boolean;
-    errors: boolean;
-    url: string;
-}
+import { HarEntryComponent } from '../har-entry/har-entry.component';
+import { HarViewerFilters } from './har-viewer-filters';
 
 @Component({
     selector: 'app-har-viewer',
+    standalone: true,
     templateUrl: './har-viewer.component.html',
-    styleUrls: ['./har-viewer.component.scss'],
+    styleUrl: './har-viewer.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [ReactiveFormsModule, AsyncPipe, NgForOf, HarEntryComponent],
 })
-export class HarViewerComponent implements OnInit {
-    @Input()
+export class HarViewerComponent {
+    @Input({ required: true })
     public set harLog(value: IHAR) {
         this.harLog$$.next(value);
     }
 
-    public entries$: Observable<IHAREntry[]>;
-    public form: FormGroup;
+    protected readonly entries$: Observable<IHAREntry[]>;
+    protected readonly form = new HarViewerFilters();
 
-    private harLog$$: BehaviorSubject<IHAR> = new BehaviorSubject<IHAR>(null);
+    private readonly harLog$$ = new ReplaySubject<IHAR>(1);
 
-    constructor(private fb: FormBuilder) {}
-
-    public ngOnInit(): void {
-        this.form = this.createForm();
+    constructor() {
         this.entries$ = this.createEntries();
     }
 
     private createEntries(): Observable<IHAREntry[]> {
-        const filter$: Observable<IFilter> = this.form.valueChanges.pipe(debounceTime(300), startWith(this.form.value));
+        const filter$ = this.form.valueChanges.pipe(debounceTime(300), startWith(this.form.value));
 
         return combineLatest([this.harLog$$, filter$]).pipe(
-            map(([harLog, filters]: [IHAR, IFilter]) => {
+            map(([harLog]) => {
                 const entries: IHAREntry[] = harLog.log?.entries || [];
-                return entries.filter((entry: IHAREntry) => this.filterEntry(filters, entry));
+                return entries.filter((entry: IHAREntry) => this.filterEntry(entry));
             }),
         );
     }
 
-    private filterEntry(filters: IFilter, entry: IHAREntry): boolean {
+    private filterEntry(entry: IHAREntry): boolean {
+        const filters = this.form.value;
+
         if (!filters.successful && entry.response?.status < 400) {
             return false;
         }
@@ -58,15 +55,5 @@ export class HarViewerComponent implements OnInit {
         const searchString = filters.url?.trim().toLowerCase();
 
         return searchString && url ? url.includes(searchString) : true;
-    }
-
-    private createForm(): FormGroup {
-        const model: IFilter = {
-            successful: true,
-            errors: true,
-            url: null,
-        };
-
-        return this.fb.group(model);
     }
 }

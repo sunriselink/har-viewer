@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { SwUpdate } from '@angular/service-worker';
+import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { of } from 'rxjs';
 import { first, skip } from 'rxjs/operators';
 import { APP_ENVIRONMENT_TOKEN, IEnvironment } from '../../../environments/environment.interface';
@@ -28,9 +28,7 @@ describe('Component: VersionComponent', () => {
     });
 
     it('should indicate new version when SwUpdate emit available', done => {
-        const swUpdateMock = jasmine.createSpyObj<SwUpdate>('SwUpdate', {}, { available: of({} as any) });
-
-        configureTestingModule({ production: false }, swUpdateMock);
+        configureTestingModule({ production: false });
 
         const fixture = TestBed.createComponent(VersionComponent);
         const component = fixture.componentInstance;
@@ -48,17 +46,19 @@ describe('Component: VersionComponent', () => {
     });
 });
 
-function configureTestingModule(env: Partial<IEnvironment>, swUpdateValue: jasmine.SpyObj<SwUpdate> = null) {
+function configureTestingModule(env: Partial<IEnvironment>) {
     TestBed.configureTestingModule({
-        declarations: [VersionComponent],
         providers: [
+            VersionComponent,
             {
                 provide: APP_ENVIRONMENT_TOKEN,
                 useValue: env,
             },
             {
                 provide: SwUpdate,
-                useValue: swUpdateValue,
+                useValue: jasmine.createSpyObj<SwUpdate>([], {
+                    versionUpdates: of({ type: 'VERSION_READY' } as VersionReadyEvent),
+                }),
             },
         ],
     });

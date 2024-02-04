@@ -5,14 +5,16 @@ on: workflow_dispatch
 jobs:
   deploy:
     runs-on: ubuntu-20.04
+    env:
+      NODE_ENV: production
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: 12
+          node-version-file: ".nvmrc"
       - name: Install dependencies
-        run: npm ci --only=prod
+        run: npm ci
       - name: Build
         run: npm run build:prod
       - name: Set up GitHub Pages repository
@@ -25,7 +27,8 @@ jobs:
         working-directory: output
         run: |
           git rm -rfq .
-          cp -rv ../dist/har-viewer/** .
+          cp -rv ../dist/har-viewer/browser/** .
+          cp -v ../dist/har-viewer/3rdpartylicenses.txt .
           git add --all
           git commit -m "Update $(date +'%Y-%m-%d %H:%M:%S')"
           git push

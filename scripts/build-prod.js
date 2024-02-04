@@ -12,7 +12,7 @@ try {
     BuildTools.setVariable('GIT_BRANCH', branch);
 
     BuildTools.flush();
-    BuildTools.shell('npx ng build --prod', true);
+    BuildTools.shell('npx --no ng build', true);
 } finally {
     BuildTools.restore();
 }

@@ -1,9 +1,10 @@
+import { JSONValue } from '../../../types/json-value';
 import { truncate } from '../../../utils/truncate';
 import { Segment, SegmentBuilder } from './segment';
 
 const STRING_LENGTH_LIMIT = 128;
 
-export class StringSegment extends Segment {
+export class StringSegment extends Segment<string> {
     constructor(key: string, value: string) {
         super(key, value, 'string');
 
@@ -16,12 +17,12 @@ export class StringSegment extends Segment {
     }
 }
 
-export class StringSegmentBuilder extends SegmentBuilder<StringSegment> {
-    public build(key: string, value: any): StringSegment {
+export class StringSegmentBuilder extends SegmentBuilder<string, StringSegment> {
+    public build(key: string, value: string): StringSegment {
         return new StringSegment(key, value);
     }
 
-    public canBuild(value: any): boolean {
+    public canBuild(value: JSONValue): boolean {
         return typeof value === 'string';
     }
 }
