@@ -1,6 +1,6 @@
 {
   "name": "har-viewer",
-  "version": "0.0.11",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "prepare": "node scripts/prepare.mjs",
