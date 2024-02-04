@@ -1,9 +1,10 @@
 import { Directive, EventEmitter, HostListener, OnDestroy, OnInit, Output } from '@angular/core';
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
+import { Unsafe } from '../types/unsafe';
 
 @Directive({
     selector: '[appFileDropZone]',
+    standalone: true,
 })
 export class FileDropZoneDirective implements OnInit, OnDestroy {
     @Output()
@@ -33,8 +34,10 @@ export class FileDropZoneDirective implements OnInit, OnDestroy {
 
         this.fileOver$$.next(false);
 
-        if (event.dataTransfer.files.length > 0) {
-            this.fileDrop.emit(event.dataTransfer.files[0]);
+        const file = this.getFile(event);
+
+        if (file) {
+            this.fileDrop.emit(file);
         }
     }
 
@@ -50,5 +53,10 @@ export class FileDropZoneDirective implements OnInit, OnDestroy {
     public ngOnDestroy(): void {
         this.destroy$$.next();
         this.destroy$$.complete();
+    }
+
+    private getFile(event: DragEvent): Unsafe<File> {
+        const files = event.dataTransfer?.files;
+        return files?.length ? files[0] : null;
     }
 }

@@ -1,30 +1,17 @@
 {
   "root": true,
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "@angular-eslint"],
+  "ignorePatterns": ["projects/**/*"],
   "overrides": [
     {
       "files": ["*.ts"],
-      "parserOptions": {
-        "project": ["tsconfig.app.json"],
-        "createDefaultProgram": true
-      },
       "extends": [
-        "plugin:@angular-eslint/recommended",
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates",
         "plugin:prettier/recommended"
       ],
       "rules": {
-        "@angular-eslint/component-selector": [
-          "error",
-          {
-            "type": "element",
-            "prefix": "app",
-            "style": "kebab-case"
-          }
-        ],
         "@angular-eslint/directive-selector": [
           "error",
           {
@@ -33,36 +20,21 @@
             "style": "camelCase"
           }
         ],
-        "@typescript-eslint/member-ordering": "off",
-        "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/restrict-template-expressions": "off",
-        "@typescript-eslint/no-unsafe-return": "off",
-        "@typescript-eslint/no-unsafe-assignment": "off",
-        "@typescript-eslint/explicit-module-boundary-types": [
+        "@angular-eslint/component-selector": [
           "error",
           {
-            "allowArgumentsExplicitlyTypedAsAny": true
+            "type": "element",
+            "prefix": "app",
+            "style": "kebab-case"
           }
-        ]
+        ],
+        "@angular-eslint/prefer-on-push-component-change-detection": ["error"]
       }
     },
     {
-      "files": ["src/**/*.spec.ts"],
-      "parserOptions": {
-        "project": "tsconfig.spec.json"
-      },
-      "extends": ["plugin:jasmine/recommended"],
-      "plugins": ["jasmine"],
-      "env": {
-        "jasmine": true
-      },
-      "rules": {
-        "@typescript-eslint/no-unused-vars": "off"
-      }
-    },
-    {
-      "files": ["*.component.html"],
-      "extends": ["plugin:@angular-eslint/template/recommended"]
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended", "plugin:prettier/recommended"],
+      "rules": {}
     }
   ]
 }

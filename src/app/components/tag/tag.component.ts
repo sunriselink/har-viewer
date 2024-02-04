@@ -4,8 +4,9 @@ export type TagColor = 'blue' | 'red';
 
 @Component({
     selector: 'app-tag',
+    standalone: true,
     templateUrl: './tag.component.html',
-    styleUrls: ['./tag.component.scss'],
+    styleUrl: './tag.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TagComponent {

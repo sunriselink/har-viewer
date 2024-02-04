@@ -1,26 +1,36 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
-import { Observable } from 'rxjs';
-import { mapTo, startWith } from 'rxjs/operators';
+import { filter, map, Observable, startWith } from 'rxjs';
 import { AppInfoService } from '../../services/app-info.service';
 
 @Component({
     selector: 'app-version',
+    standalone: true,
     templateUrl: './version.component.html',
-    styleUrls: ['./version.component.scss'],
+    styleUrl: './version.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [AsyncPipe, NgIf],
 })
 export class VersionComponent implements OnInit {
-    public newVersionAvailable$: Observable<boolean>;
+    public readonly newVersionAvailable$: Observable<boolean>;
 
-    constructor(private infoService: AppInfoService, private swUpdate: SwUpdate) {}
+    private readonly infoService = inject(AppInfoService);
+    private readonly swUpdate = inject(SwUpdate);
+
+    constructor() {
+        this.newVersionAvailable$ = this.swUpdate.versionUpdates.pipe(
+            filter(event => event.type === 'VERSION_READY'),
+            map(() => true),
+            startWith(false),
+        );
+    }
 
     public get version(): string {
         return this.infoService.production ? `v${this.infoService.version}` : 'develop';
     }
 
     public ngOnInit(): void {
-        this.newVersionAvailable$ = this.swUpdate.available.pipe(mapTo(true), startWith(false));
         this.showInfo();
     }
 

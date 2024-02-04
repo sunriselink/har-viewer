@@ -1,5 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { JSONValue } from '../../types/json-value';
 import { JsonViewerService } from './json-viewer.service';
 import { ArraySegment } from './segments/array-segment';
 import { BooleanSegment } from './segments/boolean-segment';
@@ -30,7 +31,7 @@ describe('Service: JsonViewerService', () => {
                 '111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
             numberProp: 5,
             booleanProp: true,
-            dateProp: new Date('2012-12-12'),
+            dateProp: new Date('2012-12-12') as unknown as JSONValue,
             nullProp: null,
             undefinedProp: void 0,
             objectProp: {
@@ -41,17 +42,8 @@ describe('Service: JsonViewerService', () => {
         };
 
         const segments = service.createSegments(testObj);
-        const [
-            stringSeg,
-            longStringSeg,
-            numberSeg,
-            booleanSeg,
-            dateSeg,
-            nullSeg,
-            undefinedSeg,
-            objectSeg,
-            arraySeg,
-        ] = segments;
+        const [stringSeg, longStringSeg, numberSeg, booleanSeg, dateSeg, nullSeg, undefinedSeg, objectSeg, arraySeg] =
+            segments;
 
         expect(segments).toHaveSize(9);
 
@@ -67,8 +59,7 @@ describe('Service: JsonViewerService', () => {
         checkSegment(longStringSeg, StringSegment, {
             type: 'string',
             key: 'longStringProp',
-            value:
-                '111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
+            value: '111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
             description:
                 '"11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111..."',
             expandable: false,
@@ -96,7 +87,7 @@ describe('Service: JsonViewerService', () => {
         checkSegment(dateSeg, UnknownSegment, {
             type: 'unknown',
             key: 'dateProp',
-            value: new Date('2012-12-12'),
+            value: new Date('2012-12-12') as unknown as JSONValue,
             description: '"2012-12-12T00:00:00.000Z"',
             expandable: false,
             limited: false,
@@ -145,7 +136,7 @@ describe('Service: JsonViewerService', () => {
 
 interface ISegmentCheckValue {
     key: string;
-    value: any;
+    value: JSONValue;
     description: string;
     type: string;
     expandable: boolean;

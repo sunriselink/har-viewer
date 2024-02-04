@@ -1,30 +1,34 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
+import { map, Observable, ReplaySubject } from 'rxjs';
+import { JSONValue } from '../../types/json-value';
 import { ModalService } from '../modal/modal.service';
 import { JsonViewerService } from './json-viewer.service';
 import { Segment } from './segments/segment';
 
 @Component({
     selector: 'app-json-viewer',
+    standalone: true,
     templateUrl: './json-viewer.component.html',
-    styleUrls: ['./json-viewer.component.scss'],
+    styleUrl: './json-viewer.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [AsyncPipe, NgForOf, NgIf],
 })
-export class JsonViewerComponent implements OnInit {
-    @Input()
-    public set json(value: any) {
+export class JsonViewerComponent {
+    @Input({ required: true })
+    public set json(value: JSONValue) {
         this.json$$.next(value);
     }
 
-    public segments$: Observable<Segment[]>;
+    protected readonly segments$: Observable<Segment[]>;
 
-    private json$$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    private readonly jsonViewerService = inject(JsonViewerService);
+    private readonly modalService = inject(ModalService);
 
-    constructor(private jsonViewerService: JsonViewerService, private modalService: ModalService) {}
+    private readonly json$$ = new ReplaySubject<JSONValue>(1);
 
-    public ngOnInit(): void {
-        this.segments$ = this.json$$.pipe(map((json: any) => this.jsonViewerService.createSegments(json)));
+    constructor() {
+        this.segments$ = this.json$$.pipe(map((json: JSONValue) => this.jsonViewerService.createSegments(json)));
     }
 
     public toggle(segment: Segment): void {

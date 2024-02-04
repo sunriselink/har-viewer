@@ -1,49 +1,52 @@
+import { AsyncPipe } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
     ElementRef,
     HostBinding,
     HostListener,
+    inject,
     Renderer2,
     ViewChild,
 } from '@angular/core';
-import { Observable } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { distinctUntilChanged } from 'rxjs';
 import { ModalService } from './modal.service';
 
 const NO_SCROLL_CLASS = 'no-scroll';
 
 @Component({
     selector: 'app-modal',
+    standalone: true,
     templateUrl: './modal.component.html',
-    styleUrls: ['./modal.component.scss'],
+    styleUrl: './modal.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [AsyncPipe],
 })
 export class ModalComponent {
     @ViewChild('scrollContainer', { read: ElementRef })
-    public scrollContainerRef: ElementRef;
+    protected scrollContainerRef!: ElementRef<HTMLElement>;
 
     @HostBinding('class.opened')
-    public opened = false;
+    protected opened = false;
 
     @HostListener('click', ['$event'])
-    public onClick(event: MouseEvent): void {
+    protected onClick(event: MouseEvent): void {
         if (event.target === this.elementRef.nativeElement) {
             this.close();
         }
     }
 
     @HostListener('document:keydown.escape')
-    public onEscapePress(): void {
+    protected onEscapePress(): void {
         this.close();
     }
 
-    public readonly text$: Observable<string>;
+    private readonly modalService = inject(ModalService);
+    private readonly renderer = inject(Renderer2);
+    private readonly elementRef = inject(ElementRef);
 
-    constructor(private modalService: ModalService, private renderer: Renderer2, private elementRef: ElementRef) {
-        this.text$ = modalService.text$;
-
-        modalService.state$.pipe(distinctUntilChanged()).subscribe((opened: boolean) => {
+    constructor() {
+        this.modalService.state$.pipe(distinctUntilChanged()).subscribe((opened: boolean) => {
             this.opened = opened;
 
             if (opened) {
@@ -55,11 +58,15 @@ export class ModalComponent {
         });
     }
 
-    public get scrollContainer(): HTMLElement {
-        return this.scrollContainerRef.nativeElement as HTMLElement;
+    protected get text$() {
+        return this.modalService.text$;
     }
 
-    public close(): void {
+    protected close(): void {
         this.modalService.close();
+    }
+
+    private get scrollContainer(): HTMLElement {
+        return this.scrollContainerRef.nativeElement;
     }
 }

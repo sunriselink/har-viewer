@@ -1,9 +1,9 @@
 import { truncate } from './truncate';
 
 describe('Utils: truncate', () => {
-    it('should return original value when falsely', () => {
-        expect(truncate(null, 0)).toBeNull();
-        expect(truncate(void 0, 0)).toBeUndefined();
+    it('should return empty string when falsely', () => {
+        expect(truncate(null, 0)).toBe('');
+        expect(truncate(void 0, 0)).toBe('');
         expect(truncate('', 0)).toBe('');
     });
 

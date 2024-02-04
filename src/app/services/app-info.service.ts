@@ -1,9 +1,11 @@
-import { Inject, Injectable } from '@angular/core';
-import { APP_ENVIRONMENT_TOKEN, IEnvironment } from '../../environments/environment.interface';
+import { inject, Injectable } from '@angular/core';
+import { APP_ENVIRONMENT_TOKEN } from '../../environments/environment.interface';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+    providedIn: 'root',
+})
 export class AppInfoService {
-    constructor(@Inject(APP_ENVIRONMENT_TOKEN) private env: IEnvironment) {}
+    private readonly env = inject(APP_ENVIRONMENT_TOKEN);
 
     public get production(): boolean {
         return this.env.production;

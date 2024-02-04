@@ -12,7 +12,7 @@ export interface IHAREntry {
     response: IHAREntryResponse;
     serverIPAddress: string;
     startedDateTime: string;
-    time: number;
+    time?: number;
 }
 
 export interface IHAREntryRequest {
@@ -21,7 +21,7 @@ export interface IHAREntryRequest {
     url: string;
     headers: IHAREntryKeyValue[];
     queryString: IHAREntryKeyValue[];
-    postData: IHAREntryData;
+    postData?: IHAREntryData;
 }
 
 export interface IHAREntryResponse {
@@ -29,7 +29,7 @@ export interface IHAREntryResponse {
     status: number;
     redirectURL: string;
     headers: IHAREntryKeyValue[];
-    content: IHAREntryData;
+    content?: IHAREntryData;
 }
 
 export interface IHAREntryData {

@@ -1,7 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { distinctUntilChanged, map, Observable, ReplaySubject } from 'rxjs';
+import { JSONValue } from '../../types/json-value';
+import { Unsafe } from '../../types/unsafe';
 import { truncate } from '../../utils/truncate';
+import { JsonViewerComponent } from '../json-viewer/json-viewer.component';
 import { ModalService } from '../modal/modal.service';
 
 interface ITextContent {
@@ -13,31 +16,35 @@ const STRING_LENGTH_LIMIT = 1024;
 
 @Component({
     selector: 'app-har-content',
+    standalone: true,
     templateUrl: './har-content.component.html',
-    styleUrls: ['./har-content.component.scss'],
+    styleUrl: './har-content.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgIf, AsyncPipe, JsonViewerComponent],
 })
-export class HarContentComponent implements OnInit {
-    @Input()
-    public set content(value: string) {
+export class HarContentComponent {
+    @Input({ required: true })
+    public set content(value: Unsafe<string>) {
         this.content$$.next(value);
     }
 
-    public json$: Observable<any>;
-    public text$: Observable<ITextContent>;
+    protected readonly text$: Observable<ITextContent>;
+    protected readonly json$: Observable<Unsafe<JSONValue>>;
 
-    private content$$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+    private readonly content$$ = new ReplaySubject<Unsafe<string>>(1);
 
-    constructor(private modalService: ModalService) {}
-
-    public ngOnInit(): void {
+    constructor(private modalService: ModalService) {
         this.text$ = this.content$$.pipe(
-            map((text: string) => text ?? ''),
+            map(text => text ?? ''),
             distinctUntilChanged(),
-            map((text: string) => this.mapText(text)),
+            map(text => this.mapText(text)),
         );
 
         this.json$ = this.text$.pipe(map((content: ITextContent) => this.tryParseJSON(content.full)));
+    }
+
+    protected showMore(text: string): void {
+        this.modalService.open(text);
     }
 
     private mapText(text: string): ITextContent {
@@ -47,7 +54,7 @@ export class HarContentComponent implements OnInit {
         };
     }
 
-    private tryParseJSON(text: string): any {
+    private tryParseJSON(text: string): Unsafe<JSONValue> {
         if (!this.isJSON(text)) {
             return null;
         }
@@ -60,7 +67,7 @@ export class HarContentComponent implements OnInit {
     }
 
     private isJSON(text: string): boolean {
-        text = text?.trim();
+        text = text.trim();
 
         if (!text) {
             return false;
@@ -72,9 +79,5 @@ export class HarContentComponent implements OnInit {
             (text.startsWith('{') || text.startsWith('[')) &&
             (text.endsWith('}') || text.endsWith(']'))
         );
-    }
-
-    public showMore(text: string): void {
-        this.modalService.open(text);
     }
 }
