@@ -1,22 +1,18 @@
-<app-modal></app-modal>
-
 <div
     class="drop"
     appFileDropZone
-    [class.file-over]="fileOver"
-    (fileOver)="fileOver = $event"
+    [class.file-over]="fileOver()"
+    (fileOver)="fileOver.set($event)"
     (fileDrop)="loadHAR($event)"
 >
-    <ng-container *ngIf="harLog$ | async as harLog; else selectHAR">
-        <app-har-viewer [harLog]="harLog"></app-har-viewer>
-    </ng-container>
-
-    <ng-template #selectHAR>
+    @if (harLog(); as har) {
+        <app-har-viewer [harLog]="har"></app-har-viewer>
+    } @else {
         <div class="upload">
             <app-file-uploader buttonText="SELECT HAR FILE" (fileSelect)="loadHAR($event)"></app-file-uploader>
             <div class="upload__tip">Or drop file here</div>
         </div>
-    </ng-template>
+    }
 </div>
 
 <app-version></app-version>

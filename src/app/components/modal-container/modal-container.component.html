@@ -2,7 +2,7 @@
     <div class="modal__header">
         <div class="modal__close" (click)="close()">&times;</div>
     </div>
-    <div #scrollContainer class="modal__body">
-        <pre>{{ text$ | async }}</pre>
+    <div class="modal__body">
+        <ng-content></ng-content>
     </div>
 </div>

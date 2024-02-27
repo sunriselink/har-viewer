@@ -7,7 +7,7 @@
     "start": "ng serve",
     "build:prod": "node scripts/build-prod.js",
     "test": "ng test",
-    "lint": "ng lint",
+    "lint": "ng lint --max-warnings 0",
     "prettier": "prettier --write ."
   },
   "dependencies": {

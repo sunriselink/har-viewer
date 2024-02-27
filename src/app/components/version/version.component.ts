@@ -34,7 +34,7 @@ export class VersionComponent implements OnInit {
         this.showInfo();
     }
 
-    private showInfo() {
+    private showInfo(): void {
         if (this.infoService.production) {
             const branch = this.infoService.branch;
             const commit = this.infoService.commit;

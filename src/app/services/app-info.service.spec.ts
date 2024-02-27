@@ -21,7 +21,7 @@ describe('Service: AppInfoService', () => {
     });
 });
 
-function configureModule(env: IEnvironment) {
+function configureModule(env: IEnvironment): void {
     TestBed.configureTestingModule({
         providers: [
             {

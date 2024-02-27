@@ -46,7 +46,7 @@ describe('Component: VersionComponent', () => {
     });
 });
 
-function configureTestingModule(env: Partial<IEnvironment>) {
+function configureTestingModule(env: Partial<IEnvironment>): void {
     TestBed.configureTestingModule({
         providers: [
             VersionComponent,

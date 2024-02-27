@@ -1,11 +1,11 @@
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
 import { distinctUntilChanged, map, Observable, ReplaySubject } from 'rxjs';
 import { JSONValue } from '../../types/json-value';
 import { Unsafe } from '../../types/unsafe';
 import { truncate } from '../../utils/truncate';
 import { JsonViewerComponent } from '../json-viewer/json-viewer.component';
-import { ModalService } from '../modal/modal.service';
+import { StringContentService } from '../string-content-modal/string-content.service';
 
 interface ITextContent {
     full: string;
@@ -32,8 +32,9 @@ export class HarContentComponent {
     protected readonly json$: Observable<Unsafe<JSONValue>>;
 
     private readonly content$$ = new ReplaySubject<Unsafe<string>>(1);
+    private readonly stringContentService = inject(StringContentService);
 
-    constructor(private modalService: ModalService) {
+    constructor() {
         this.text$ = this.content$$.pipe(
             map(text => text ?? ''),
             distinctUntilChanged(),
@@ -44,7 +45,7 @@ export class HarContentComponent {
     }
 
     protected showMore(text: string): void {
-        this.modalService.open(text);
+        this.stringContentService.open(text);
     }
 
     private mapText(text: string): ITextContent {

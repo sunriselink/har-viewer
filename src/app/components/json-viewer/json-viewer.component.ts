@@ -2,7 +2,7 @@ import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
 import { map, Observable, ReplaySubject } from 'rxjs';
 import { JSONValue } from '../../types/json-value';
-import { ModalService } from '../modal/modal.service';
+import { StringContentService } from '../string-content-modal/string-content.service';
 import { JsonViewerService } from './json-viewer.service';
 import { Segment } from './segments/segment';
 
@@ -23,7 +23,7 @@ export class JsonViewerComponent {
     protected readonly segments$: Observable<Segment[]>;
 
     private readonly jsonViewerService = inject(JsonViewerService);
-    private readonly modalService = inject(ModalService);
+    private readonly stringContentService = inject(StringContentService);
 
     private readonly json$$ = new ReplaySubject<JSONValue>(1);
 
@@ -38,6 +38,6 @@ export class JsonViewerComponent {
     }
 
     public showMore(segment: Segment): void {
-        this.modalService.open(segment.value as string);
+        this.stringContentService.open(segment.value as string);
     }
 }
