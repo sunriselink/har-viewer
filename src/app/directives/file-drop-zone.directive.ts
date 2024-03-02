@@ -1,4 +1,4 @@
-import { DestroyRef, Directive, EventEmitter, HostListener, inject, OnInit, Output } from '@angular/core';
+import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { Unsafe } from '../types/unsafe';
@@ -7,7 +7,7 @@ import { Unsafe } from '../types/unsafe';
     selector: '[appFileDropZone]',
     standalone: true,
 })
-export class FileDropZoneDirective implements OnInit {
+export class FileDropZoneDirective {
     @Output()
     public fileDrop = new EventEmitter<File>();
 
@@ -43,11 +43,14 @@ export class FileDropZoneDirective implements OnInit {
     }
 
     private readonly fileOver$ = new Subject<boolean>();
-    private readonly destroyRef = inject(DestroyRef);
 
-    public ngOnInit(): void {
+    constructor() {
+        this.createFileOverSubscription();
+    }
+
+    private createFileOverSubscription(): void {
         this.fileOver$
-            .pipe(distinctUntilChanged(), debounceTime(50), takeUntilDestroyed(this.destroyRef))
+            .pipe(distinctUntilChanged(), debounceTime(50), takeUntilDestroyed())
             .subscribe((value: boolean) => this.fileOver.emit(value));
     }
 

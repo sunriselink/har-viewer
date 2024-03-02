@@ -8,7 +8,7 @@ import { StringContentModalComponent } from './string-content-modal.component';
 export class StringContentService {
     private readonly modalService = inject(ModalService);
 
-    public open(content: string): void {
+    public openModal(content: string): void {
         this.modalService.open(StringContentModalComponent, content);
     }
 }

@@ -1,28 +1,15 @@
 :host {
   display: block;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 8px 0;
+  padding: 12px 8px;
 }
 
-app-expansion-panel {
-  padding: 4px 8px;
-}
-
-app-expansion-panel-header,
-app-expansion-panel-content {
-  word-break: break-all;
+.request-url {
+  word-break: break-word;
 }
 
 app-tag {
   margin-right: 8px;
-}
-
-.har-content {
-  overflow-y: auto;
-}
-
-.bold {
-  font-weight: bold;
 }
 
 .common-params {

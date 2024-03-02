@@ -1,12 +1,11 @@
-<ng-container *ngIf="json$ | async as jsonContent; else textContent">
-    <app-json-viewer [json]="jsonContent"></app-json-viewer>
-</ng-container>
+@if (json()) {
+    <app-json-viewer [json]="json()"></app-json-viewer>
+} @else {
+    <div class="static-text">
+        <pre>{{ text().limited }}</pre>
 
-<ng-template #textContent>
-    <div *ngIf="text$ | async as text" class="static-text">
-        <pre>{{ text.limited }}</pre>
-        <button *ngIf="text.full.length !== text.limited.length" class="flat-button" (click)="showMore(text.full)">
-            Show more...
-        </button>
+        @if (text().full.length !== text().limited.length) {
+            <button class="flat-button" (click)="showMore()">Show more...</button>
+        }
     </div>
-</ng-template>
+}

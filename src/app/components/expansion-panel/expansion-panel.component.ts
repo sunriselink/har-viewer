@@ -1,5 +1,15 @@
-import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import {
+    booleanAttribute,
+    ChangeDetectionStrategy,
+    Component,
+    ContentChild,
+    HostBinding,
+    Input,
+    OnInit,
+    signal,
+} from '@angular/core';
+import { ExpansionPanelContentDirective } from './expansion-panel-content.directive';
 
 @Component({
     selector: 'app-expansion-panel',
@@ -7,23 +17,30 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '
     templateUrl: './expansion-panel.component.html',
     styleUrl: './expansion-panel.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [NgIf],
+    imports: [NgTemplateOutlet],
 })
 export class ExpansionPanelComponent implements OnInit {
-    @Input()
-    @HostBinding('class.show-toggle')
-    public showToggle = false;
+    @HostBinding('class.show-arrow')
+    @Input({ transform: booleanAttribute })
+    public showArrow = false;
 
-    @Input()
+    @Input({ transform: booleanAttribute })
     public initialOpened = false;
 
-    public opened!: boolean;
+    @ContentChild(ExpansionPanelContentDirective, { static: true })
+    protected content!: ExpansionPanelContentDirective;
+
+    protected readonly opened = signal(false);
 
     public ngOnInit(): void {
-        this.opened = this.initialOpened;
+        this.opened.set(this.initialOpened);
+
+        if (!this.content) {
+            throw new Error('Directive appExpansionPanelContent is required');
+        }
     }
 
     protected toggle(): void {
-        this.opened = !this.opened;
+        this.opened.update(x => !x);
     }
 }

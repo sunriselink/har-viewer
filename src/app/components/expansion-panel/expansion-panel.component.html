@@ -1,8 +1,13 @@
-<div (click)="toggle()">
-    <div *ngIf="showToggle" class="toggle" [class.toggle_opened]="opened"></div>
-    <ng-content select="app-expansion-panel-header"></ng-content>
+<div class="header" (click)="toggle()">
+    @if (showArrow) {
+        <div class="toggle" [class.toggle_opened]="opened()"></div>
+    }
+
+    <ng-content></ng-content>
 </div>
 
-<div *ngIf="opened">
-    <ng-content select="app-expansion-panel-content"></ng-content>
-</div>
+@if (opened()) {
+    <div>
+        <ng-template [ngTemplateOutlet]="content.templateRef"></ng-template>
+    </div>
+}

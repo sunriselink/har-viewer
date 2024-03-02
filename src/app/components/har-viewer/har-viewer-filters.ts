@@ -1,4 +1,4 @@
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, ɵFormGroupValue } from '@angular/forms';
 import { Unsafe } from '../../types/unsafe';
 
 type HarViewerFiltersControls = {
@@ -6,6 +6,8 @@ type HarViewerFiltersControls = {
     errors: FormControl<boolean>;
     url: FormControl<Unsafe<string>>;
 };
+
+export type HarViewerFiltersValue = ɵFormGroupValue<HarViewerFiltersControls>;
 
 export class HarViewerFilters extends FormGroup<HarViewerFiltersControls> {
     constructor() {

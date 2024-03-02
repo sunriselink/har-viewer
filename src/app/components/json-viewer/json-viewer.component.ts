@@ -38,6 +38,6 @@ export class JsonViewerComponent {
     }
 
     public showMore(segment: Segment): void {
-        this.stringContentService.open(segment.value as string);
+        this.stringContentService.openModal(segment.value as string);
     }
 }
