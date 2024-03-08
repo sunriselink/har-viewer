@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, Component, computed, input, Signal } from '@an
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { debounceTime } from 'rxjs';
-import { IHAR, IHAREntry } from '../../types/har-log';
+import { HAREntry } from '../../models/har-entry';
+import { IHAR } from '../../types/har-log';
 import { HarEntryComponent } from '../har-entry/har-entry.component';
 import { HarViewerFilters, HarViewerFiltersValue } from './har-viewer-filters';
 
@@ -18,23 +19,21 @@ export class HarViewerComponent {
     public harLog = input.required<IHAR>();
 
     protected readonly form = new HarViewerFilters();
-    protected readonly entries: Signal<IHAREntry[]>;
+    protected readonly entries: Signal<HAREntry[]>;
 
     constructor() {
         this.entries = this.createEntries();
     }
 
-    private createEntries(): Signal<IHAREntry[]> {
+    private createEntries(): Signal<HAREntry[]> {
         const filters$ = this.form.valueChanges.pipe(debounceTime(300));
         const filters = toSignal(filters$, { initialValue: this.form.value });
+        const entries = computed(() => this.harLog().log?.entries?.map(x => new HAREntry(x)) ?? []);
 
-        return computed(() => {
-            const entries: IHAREntry[] = this.harLog().log?.entries || [];
-            return entries.filter(x => this.filterEntry(x, filters()));
-        });
+        return computed(() => entries().filter(x => this.filterEntry(x, filters())));
     }
 
-    private filterEntry(entry: IHAREntry, filters: HarViewerFiltersValue): boolean {
+    private filterEntry(entry: HAREntry, filters: HarViewerFiltersValue): boolean {
         if (!filters.successful && entry.response?.status < 400) {
             return false;
         }

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { HTTP_CODES } from '../../contstants/http-codes';
-import { IHAREntry } from '../../types/har-log';
+import { HAREntry } from '../../models/har-entry';
 import { ExpansionPanelContentDirective } from '../expansion-panel/expansion-panel-content.directive';
 import { ExpansionPanelComponent } from '../expansion-panel/expansion-panel.component';
 import { HarEntryLineComponent } from '../har-entry-line/har-entry-line.component';
@@ -22,7 +22,7 @@ import { TagColor, TagComponent } from '../tag/tag.component';
     ],
 })
 export class HarEntryComponent {
-    public entry = input.required<IHAREntry>();
+    public entry = input.required<HAREntry>();
 
     protected readonly statusColor = computed(() => this.getStatusColor());
     protected readonly statusText = computed(() => this.getStatusText());

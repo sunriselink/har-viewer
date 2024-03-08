@@ -29,17 +29,13 @@
 @if (postData) {
     <app-expansion-panel showArrow initialOpened>
         <div class="title">POST Data</div>
-        <ng-container *appExpansionPanelContent>
-            <app-har-content [content]="postData"></app-har-content>
-        </ng-container>
+        <app-har-content *appExpansionPanelContent [content]="postData"></app-har-content>
     </app-expansion-panel>
 }
 
 @if (responseData) {
     <app-expansion-panel showArrow initialOpened>
         <div class="title">Response Data</div>
-        <ng-container *appExpansionPanelContent>
-            <app-har-content [content]="responseData"></app-har-content>
-        </ng-container>
+        <app-har-content *appExpansionPanelContent [content]="responseData"></app-har-content>
     </app-expansion-panel>
 }

@@ -16,6 +16,6 @@
     </div>
 </div>
 
-@for (entry of entries(); track $index) {
+@for (entry of entries(); track entry.id) {
     <app-har-entry [entry]="entry"></app-har-entry>
 }

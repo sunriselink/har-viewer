@@ -9,7 +9,7 @@ import { ModalRef } from './modal-ref';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalContainerComponent {
-    private readonly elementRef: ElementRef<HTMLElement> = inject(ElementRef);
+    private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
     private readonly modalRef = inject(ModalRef);
 
     @HostListener('click', ['$event'])

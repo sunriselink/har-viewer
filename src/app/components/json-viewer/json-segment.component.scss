@@ -1,0 +1,71 @@
+:host {
+  display: block;
+  word-break: break-all;
+}
+
+.header {
+  position: relative;
+  padding-left: 16px;
+
+  &_expandable {
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &_expanded {
+    .toggle::after {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+.toggle {
+  position: absolute;
+
+  &::after {
+    content: "►";
+    display: inline-block;
+    font-size: 13px;
+    margin-left: -12px;
+    transform: translateY(-1px);
+    transition: transform 0.1s ease-in;
+  }
+}
+
+.field-name {
+  color: #4e187c;
+}
+
+.separator {
+  color: #999999;
+}
+
+.string-value {
+  color: #999999;
+}
+
+.type {
+  &-string {
+    color: #ff6b6b;
+  }
+
+  &-number {
+    color: #009688;
+  }
+
+  &-boolean {
+    color: #b938a4;
+  }
+}
+
+.children {
+  margin-left: 16px;
+}
+
+.show-more {
+  position: absolute;
+  right: 0;
+  top: 0;
+}

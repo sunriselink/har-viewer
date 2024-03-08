@@ -1,6 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Unsafe } from '../types/unsafe';
 
+/**
+ * https://en.wikipedia.org/wiki/Kilobyte
+ */
+const UNITS = ['B', 'kB', 'MB', 'GB'];
+
 @Pipe({
     name: 'size',
     standalone: true,
@@ -8,18 +13,17 @@ import { Unsafe } from '../types/unsafe';
 export class SizePipe implements PipeTransform {
     public transform(value: Unsafe<number>): string {
         value = value ?? 0;
-        let unit = 'B';
+        let unitResult = UNITS[0];
 
-        if (value >= 1024) {
-            value /= 1024;
-            unit = 'KB';
+        for (let i = 1; i < UNITS.length; i++) {
+            if (value < 1000) {
+                break;
+            }
+
+            value /= 1000;
+            unitResult = UNITS[i];
         }
 
-        if (value >= 1024) {
-            value /= 1024;
-            unit = 'MB';
-        }
-
-        return `${value.toFixed(2).replace(/\.?0+$/, '')} ${unit}`;
+        return `${value.toFixed(2).replace(/\.?0+$/, '')} ${unitResult}`;
     }
 }

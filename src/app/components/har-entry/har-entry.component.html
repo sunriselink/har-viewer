@@ -7,13 +7,13 @@
         <div class="common-params">
             <app-har-entry-line label="Status" [value]="statusText()"></app-har-entry-line>
 
-            @if (entry()._fromCache === 'disk') {
+            @if (entry().fromDiskCache) {
                 <app-har-entry-line label="Cache" value="Disk"></app-har-entry-line>
             }
 
             <app-har-entry-line label="Server IP" [value]="entry().serverIPAddress"></app-har-entry-line>
             <app-har-entry-line label="Date" [value]="entry().startedDateTime"></app-har-entry-line>
-            <app-har-entry-line label="Time" [value]="(entry().time?.toFixed(0) || 0) + ' ms'"></app-har-entry-line>
+            <app-har-entry-line label="Time" [value]="entry().time.toFixed(0) + ' ms'"></app-har-entry-line>
         </div>
 
         <app-har-request-data

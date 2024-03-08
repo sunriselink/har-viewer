@@ -1,0 +1,27 @@
+<div class="header" [class.header_expandable]="expandable()" [class.header_expanded]="expanded()" (click)="toggle()">
+    @if (expanded()) {
+        <div class="toggle"></div>
+    }
+
+    <span class="field-name">{{ segment().fieldName }}</span>
+    <span class="separator">:&nbsp;</span>
+
+    @if (!expandable() || !expanded()) {
+        <span
+            class="string-value"
+            [class.type-string]="isString()"
+            [class.type-number]="isNumber()"
+            [class.type-boolean]="isBoolean()"
+        >
+            <span>{{ segment().stringValue }}</span>
+
+            @if (limitedStringValue()) {
+                <button class="flat-button show-more" (click)="showMore()">Show more...</button>
+            }
+        </span>
+    }
+</div>
+
+@if (expanded()) {
+    <app-json-viewer class="children" [json]="segment().value"></app-json-viewer>
+}

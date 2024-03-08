@@ -1,19 +1,23 @@
 import { JSONValue } from '../../../types/json-value';
-import { Segment, SegmentBuilder } from './segment';
+import { Segment } from './base/segment';
+import { SegmentBuilder } from './base/segment-builder';
 
 export class BooleanSegment extends Segment<boolean> {
     constructor(key: string, value: boolean) {
-        super(key, value, 'boolean');
-        this._description = `${value}`;
+        super(key, value);
+    }
+
+    public override stringify(value: boolean): string {
+        return `${value}`;
     }
 }
 
 export class BooleanSegmentBuilder extends SegmentBuilder<boolean, BooleanSegment> {
-    public build(key: string, value: boolean): BooleanSegment {
-        return new BooleanSegment(key, value);
+    public override canBuild(value: JSONValue): boolean {
+        return typeof value === 'boolean';
     }
 
-    public canBuild(value: JSONValue): boolean {
-        return typeof value === 'boolean';
+    public override build(fieldName: string, value: boolean): BooleanSegment {
+        return new BooleanSegment(fieldName, value);
     }
 }

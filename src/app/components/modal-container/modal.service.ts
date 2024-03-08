@@ -59,6 +59,7 @@ export class ModalService {
         this.modalVars.content.destroy();
         this.modalVars.container.destroy();
         this.modalVars = null;
+
         document.body.classList.remove(NO_SCROLL_CLASS);
     }
 

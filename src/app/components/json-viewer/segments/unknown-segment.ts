@@ -1,28 +1,31 @@
 import { JSONValue } from '../../../types/json-value';
-import { Segment, SegmentBuilder } from './segment';
+import { Segment } from './base/segment';
+import { SegmentBuilder } from './base/segment-builder';
 
 export class UnknownSegment extends Segment {
     constructor(key: string, value: JSONValue) {
-        super(key, value, 'unknown');
+        super(key, value);
+    }
+
+    public override stringify(value: JSONValue): string {
+        let stringValue: string;
 
         try {
-            this._description = JSON.stringify(value);
-
-            if (this._description === void 0) {
-                this._description = 'undefined';
-            }
+            stringValue = JSON.stringify(value);
         } catch {
-            this._description = `${value}`;
+            stringValue = `${value}`;
         }
+
+        return stringValue ?? 'undefined';
     }
 }
 
 export class UnknownSegmentBuilder extends SegmentBuilder<JSONValue, UnknownSegment> {
-    public build(key: string, value: JSONValue): UnknownSegment {
-        return new UnknownSegment(key, value);
+    public override canBuild(): boolean {
+        return true;
     }
 
-    public canBuild(): boolean {
-        return true;
+    public override build(fieldName: string, value: JSONValue): UnknownSegment {
+        return new UnknownSegment(fieldName, value);
     }
 }
