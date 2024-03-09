@@ -1,6 +1,12 @@
 name: HAR Viewer Deployer
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      pages_branch:
+        description: "GitHub Pages branch"
+        required: true
+        default: "gh-pages"
 
 jobs:
   deploy:
@@ -22,7 +28,7 @@ jobs:
           mkdir output
           git config --global user.email "noreply@github.com"
           git config --global user.name "${GITHUB_ACTOR}"
-          git clone https://${{ secrets.ACCESS_TOKEN }}@github.com/sunriselink/har-viewer.git --branch gh-pages --single-branch ./output
+          git clone https://${{ secrets.ACCESS_TOKEN }}@github.com/sunriselink/har-viewer.git --branch ${{ github.event.inputs.pages_branch }} --single-branch ./output
       - name: Deploy
         working-directory: output
         run: |
