@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
-import { debounceTime } from 'rxjs';
+import { debounceTime, map } from 'rxjs';
 import { HAREntry } from '../../models/har-entry';
 import { IHAR } from '../../types/har-log';
 import { HarEntryComponent } from '../har-entry/har-entry.component';
@@ -26,8 +26,12 @@ export class HarViewerComponent {
     }
 
     private createEntries(): Signal<HAREntry[]> {
-        const filters$ = this.form.valueChanges.pipe(debounceTime(300));
-        const filters = toSignal(filters$, { initialValue: this.form.value });
+        const filters$ = this.form.valueChanges.pipe(
+            debounceTime(300),
+            map(() => this.form.getRawValue()),
+        );
+
+        const filters = toSignal(filters$, { initialValue: this.form.getRawValue() });
         const entries = computed(() => this.harLog().log?.entries?.map(x => new HAREntry(x)) ?? []);
 
         return computed(() => entries().filter(x => this.filterEntry(x, filters())));
