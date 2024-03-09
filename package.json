@@ -1,11 +1,12 @@
 {
   "name": "har-viewer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "prepare": "node scripts/prepare.mjs",
     "start": "ng serve",
-    "build:prod": "node scripts/build-prod.js",
+    "prebuild:prod": "node scripts/write-app-info.mjs",
+    "build:prod": "ng build",
     "test": "ng test",
     "lint": "ng lint --max-warnings 0",
     "prettier": "prettier --write ."

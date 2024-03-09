@@ -41,7 +41,7 @@ jobs:
           cp -rv ../dist/har-viewer/browser/** .
           cp -v ../dist/har-viewer/3rdpartylicenses.txt .
           git add --all
-          git commit -m "Update $(date +'%Y-%m-%d %H:%M:%S')"
+          git commit -m "Update $(date +'%Y-%m-%d %H:%M:%S %:z')"
           git push
       - name: Send Telegram Notification
         run: |

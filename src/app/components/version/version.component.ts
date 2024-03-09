@@ -26,7 +26,7 @@ export class VersionComponent implements OnInit {
     }
 
     protected get version(): string {
-        return this.infoService.production ? `v${this.infoService.version}` : 'develop';
+        return this.infoService.version ? `v${this.infoService.version}` : 'develop';
     }
 
     private getNewVersionAvailable(): Signal<boolean> {
@@ -39,11 +39,8 @@ export class VersionComponent implements OnInit {
     }
 
     private showInfo(): void {
-        if (this.infoService.production) {
-            const branch = this.infoService.branch;
-            const commit = this.infoService.commit;
-
-            console.log(`HAR Viewer ${this.version} (${branch} ${commit})`);
+        if (this.infoService.version) {
+            console.log(`HAR Viewer ${this.version} (${this.infoService.commit})`);
         }
     }
 }
