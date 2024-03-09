@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { BlobService } from './blob.service';
 
-describe('Service: BlobService', () => {
+describe('BlobService', () => {
     let service: BlobService;
 
     beforeEach(() => {

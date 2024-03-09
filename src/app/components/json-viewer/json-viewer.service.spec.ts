@@ -11,7 +11,7 @@ import { ObjectSegment } from './segments/object-segment';
 import { StringSegment } from './segments/string-segment';
 import { UnknownSegment } from './segments/unknown-segment';
 
-describe('Service: JsonViewerService', () => {
+describe('JsonViewerService', () => {
     let service: JsonViewerService;
 
     beforeEach(() => {

@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { APP_ENVIRONMENT_TOKEN, IEnvironment } from '../../environments/environment.interface';
 import { AppInfoService } from './app-info.service';
 
-describe('Service: AppInfoService', () => {
+describe('AppInfoService', () => {
     it('should return filled variables', () => {
         configureModule({
             version: '0.0.0',

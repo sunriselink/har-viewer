@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SwUpdate } from '@angular/service-worker';
-import { filter, map } from 'rxjs';
+import { map } from 'rxjs';
 import { AppInfoService } from '../../services/app-info.service';
 
 @Component({
@@ -30,11 +30,7 @@ export class VersionComponent implements OnInit {
     }
 
     private getNewVersionAvailable(): Signal<boolean> {
-        const stream$ = this.swUpdate.versionUpdates.pipe(
-            filter(event => event.type === 'VERSION_READY'),
-            map(() => true),
-        );
-
+        const stream$ = this.swUpdate.versionUpdates.pipe(map(event => event.type === 'VERSION_READY'));
         return toSignal(stream$, { initialValue: false });
     }
 

@@ -52,6 +52,12 @@
       }
     },
     {
+      "files": ["*.spec.ts"],
+      "rules": {
+        "@angular-eslint/prefer-on-push-component-change-detection": "off"
+      }
+    },
+    {
       "files": ["*.html"],
       "extends": ["plugin:@angular-eslint/template/recommended", "plugin:prettier/recommended"],
       "rules": {}
