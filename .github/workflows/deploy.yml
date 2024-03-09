@@ -7,6 +7,10 @@ on:
         description: "GitHub Pages branch"
         required: true
         default: "gh-pages"
+        type: choice
+        options:
+          - "gh-pages"
+          - "gh-pages-test"
 
 jobs:
   deploy:
