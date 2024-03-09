@@ -33,7 +33,7 @@ jobs:
           mkdir output
           git config --global user.email "noreply@github.com"
           git config --global user.name "${GITHUB_ACTOR}"
-          git clone https://${{ secrets.ACCESS_TOKEN }}@github.com/sunriselink/har-viewer.git --branch ${PAGES_BRANCH} --single-branch ./output
+          git clone https://${{ github.token }}@github.com/sunriselink/har-viewer.git --branch ${PAGES_BRANCH} --single-branch ./output
       - name: Deploy
         working-directory: output
         run: |
