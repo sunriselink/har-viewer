@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Injector, Signal, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Signal, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
 import { FileUploaderComponent } from './components/file-uploader/file-uploader.component';
@@ -25,7 +25,6 @@ export class AppComponent {
     protected readonly harLog = this.createHARSignal();
 
     protected readonly harReader = inject(HarReaderService);
-    protected readonly injector = inject(Injector);
 
     protected loadHAR(file: File): void {
         this.harFile$.next(file);
@@ -41,6 +40,6 @@ export class AppComponent {
             return of(null);
         }
 
-        return this.harReader.readHAR(file).pipe(catchAndLogError(this.injector));
+        return this.harReader.readHAR(file).pipe(catchAndLogError());
     }
 }

@@ -5,7 +5,7 @@
 
     <ng-container *appExpansionPanelContent>
         <div class="common-params">
-            <app-har-entry-line label="Status" [value]="statusText()"></app-har-entry-line>
+            <app-har-entry-line label="Status" [value]="entry().response.status | httpStatus"></app-har-entry-line>
 
             @if (entry().fromDiskCache) {
                 <app-har-entry-line label="Cache" value="Disk"></app-har-entry-line>

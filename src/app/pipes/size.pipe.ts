@@ -3,6 +3,8 @@ import { Unsafe } from '../types/unsafe';
 
 /**
  * https://en.wikipedia.org/wiki/Kilobyte
+ *
+ * Хром показывает в настоящий килобайтах, и я буду
  */
 const UNITS = ['B', 'kB', 'MB', 'GB'];
 
