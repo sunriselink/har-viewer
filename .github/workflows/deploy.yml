@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       NODE_ENV: production
+      PAGES_BRANCH: ${{ inputs.pages_branch }}
     steps:
       - uses: actions/checkout@v4
       - name: Set up Node.js
@@ -32,7 +33,7 @@ jobs:
           mkdir output
           git config --global user.email "noreply@github.com"
           git config --global user.name "${GITHUB_ACTOR}"
-          git clone https://${{ secrets.ACCESS_TOKEN }}@github.com/sunriselink/har-viewer.git --branch ${{ github.event.inputs.pages_branch }} --single-branch ./output
+          git clone https://${{ secrets.ACCESS_TOKEN }}@github.com/sunriselink/har-viewer.git --branch ${PAGES_BRANCH} --single-branch ./output
       - name: Deploy
         working-directory: output
         run: |
