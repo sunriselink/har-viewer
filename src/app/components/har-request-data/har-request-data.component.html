@@ -6,7 +6,8 @@
         <ng-container *appExpansionPanelContent>
             @for (header of headers | sortByName; track $index) {
                 <div class="headers">
-                    <span>{{ header.name }}: {{ header.value }}</span>
+                    <span class="bold">{{ header.name }}:&nbsp;</span>
+                    <span>{{ header.value }}</span>
                 </div>
             }
         </ng-container>
@@ -19,7 +20,8 @@
         <ng-container *appExpansionPanelContent>
             @for (query of queryData | sortByName; track $index) {
                 <div class="query">
-                    <span>{{ query.name }}: {{ query.value }}</span>
+                    <span class="bold">{{ query.name }}:&nbsp;</span>
+                    <span>{{ query.value }}</span>
                 </div>
             }
         </ng-container>
