@@ -26,6 +26,11 @@ describe('ExpansionPanelComponent', () => {
         fixture.detectChanges();
 
         expect(panelElement.classes['show-arrow']).toBeTrue();
+
+        fixture.componentInstance.showArrow = false;
+        fixture.detectChanges();
+
+        expect(panelElement.classes['show-arrow']).toBeUndefined();
     });
 
     it('should show/hide panel content by click', () => {
@@ -33,10 +38,15 @@ describe('ExpansionPanelComponent', () => {
 
         const headerElement = fixture.debugElement.query(By.css('app-expansion-panel .header'));
 
-        headerElement.nativeElement.click();
+        headerElement.triggerEventHandler('click');
         fixture.detectChanges();
 
         expect(getPanelContent()?.nativeElement.innerText).toBe('Panel content');
+
+        headerElement.triggerEventHandler('click');
+        fixture.detectChanges();
+
+        expect(getPanelContent()).toBeNull();
     });
 
     function getPanelContent(): Unsafe<DebugElement> {

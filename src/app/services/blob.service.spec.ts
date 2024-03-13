@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { lastValueFrom } from 'rxjs';
 import { BlobService } from './blob.service';
 
 describe('BlobService', () => {
@@ -8,16 +9,12 @@ describe('BlobService', () => {
         service = TestBed.inject(BlobService);
     });
 
-    it('should return BLOB content', done => {
+    it('should return BLOB content', async () => {
         const blob = new Blob(['Hello, World!']);
-        let result: string;
+        const stream$ = service.readContent(blob);
 
-        service.readContent(blob).subscribe({
-            next: value => (result = value),
-            complete: () => {
-                expect(result).toBe('Hello, World!');
-                done();
-            },
-        });
+        const result = await lastValueFrom(stream$);
+
+        expect(result).toBe('Hello, World!');
     });
 });

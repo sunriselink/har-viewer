@@ -6,6 +6,7 @@ import { Unsafe } from '../types/unsafe';
  *
  * Хром показывает в настоящий килобайтах, и я буду
  */
+const KILO_SIZE = 1000;
 const UNITS = ['B', 'kB', 'MB', 'GB'];
 
 @Pipe({
@@ -18,11 +19,11 @@ export class SizePipe implements PipeTransform {
         let unitResult = UNITS[0];
 
         for (let i = 1; i < UNITS.length; i++) {
-            if (value < 1000) {
+            if (value < KILO_SIZE) {
                 break;
             }
 
-            value /= 1000;
+            value /= KILO_SIZE;
             unitResult = UNITS[i];
         }
 
