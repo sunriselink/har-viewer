@@ -3,15 +3,15 @@ import { TestBed } from '@angular/core/testing';
 import { JSONValue } from '../../types/json-value';
 import { JsonViewerService } from './json-viewer.service';
 import { ArraySegment } from './segments/array-segment';
+import { Segment } from './segments/base/segment';
 import { BooleanSegment } from './segments/boolean-segment';
 import { NullSegment } from './segments/null-segment';
 import { NumberSegment } from './segments/number-segment';
 import { ObjectSegment } from './segments/object-segment';
-import { Segment } from './segments/segment';
 import { StringSegment } from './segments/string-segment';
 import { UnknownSegment } from './segments/unknown-segment';
 
-describe('Service: JsonViewerService', () => {
+describe('JsonViewerService', () => {
     let service: JsonViewerService;
 
     beforeEach(() => {
@@ -31,7 +31,6 @@ describe('Service: JsonViewerService', () => {
                 '111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
             numberProp: 5,
             booleanProp: true,
-            dateProp: new Date('2012-12-12') as unknown as JSONValue,
             nullProp: null,
             undefinedProp: void 0,
             objectProp: {
@@ -42,113 +41,73 @@ describe('Service: JsonViewerService', () => {
         };
 
         const segments = service.createSegments(testObj);
-        const [stringSeg, longStringSeg, numberSeg, booleanSeg, dateSeg, nullSeg, undefinedSeg, objectSeg, arraySeg] =
-            segments;
+        const [stringSeg, longStringSeg, numberSeg, booleanSeg, nullSeg, undefinedSeg, objectSeg, arraySeg] = segments;
 
-        expect(segments).toHaveSize(9);
+        expect(segments).toHaveSize(8);
 
         checkSegment(stringSeg, StringSegment, {
-            type: 'string',
-            key: 'stringProp',
+            fieldName: 'stringProp',
             value: 'string_value',
-            description: '"string_value"',
-            expandable: false,
-            limited: false,
+            stringValue: '"string_value"',
         });
 
         checkSegment(longStringSeg, StringSegment, {
-            type: 'string',
-            key: 'longStringProp',
+            fieldName: 'longStringProp',
             value: '111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
-            description:
-                '"11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111..."',
-            expandable: false,
-            limited: true,
+            stringValue:
+                '"111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111..."',
         });
 
         checkSegment(numberSeg, NumberSegment, {
-            type: 'number',
-            key: 'numberProp',
+            fieldName: 'numberProp',
             value: 5,
-            description: '5',
-            expandable: false,
-            limited: false,
+            stringValue: '5',
         });
 
         checkSegment(booleanSeg, BooleanSegment, {
-            type: 'boolean',
-            key: 'booleanProp',
+            fieldName: 'booleanProp',
             value: true,
-            description: 'true',
-            expandable: false,
-            limited: false,
-        });
-
-        checkSegment(dateSeg, UnknownSegment, {
-            type: 'unknown',
-            key: 'dateProp',
-            value: new Date('2012-12-12') as unknown as JSONValue,
-            description: '"2012-12-12T00:00:00.000Z"',
-            expandable: false,
-            limited: false,
+            stringValue: 'true',
         });
 
         checkSegment(nullSeg, NullSegment, {
-            type: 'null',
-            key: 'nullProp',
+            fieldName: 'nullProp',
             value: null,
-            description: 'null',
-            expandable: false,
-            limited: false,
+            stringValue: 'null',
         });
 
         checkSegment(undefinedSeg, UnknownSegment, {
-            type: 'unknown',
-            key: 'undefinedProp',
+            fieldName: 'undefinedProp',
             value: void 0,
-            description: 'undefined',
-            expandable: false,
-            limited: false,
+            stringValue: 'undefined',
         });
 
         checkSegment(objectSeg, ObjectSegment, {
-            type: 'object',
-            key: 'objectProp',
+            fieldName: 'objectProp',
             value: {
                 foo: 1,
                 bar: 'baz',
             },
-            description: 'Object {"foo":1,"bar":"baz"}',
-            expandable: true,
-            limited: false,
+            stringValue: 'Object {"foo":1,"bar":"baz"}',
         });
 
         checkSegment(arraySeg, ArraySegment, {
-            type: 'array',
-            key: 'arrayProp',
+            fieldName: 'arrayProp',
             value: [1, 2, 3],
-            description: 'Array[3] [1,2,3]',
-            expandable: true,
-            limited: false,
+            stringValue: 'Array[3] [1,2,3]',
         });
     });
 });
 
 interface ISegmentCheckValue {
-    key: string;
+    fieldName: string;
     value: JSONValue;
-    description: string;
-    type: string;
-    expandable: boolean;
-    limited: boolean;
+    stringValue: string;
 }
 
 function checkSegment<T>(segment: Segment, type: Type<T>, values: ISegmentCheckValue): void {
     expect(segment).toBeInstanceOf(type);
-    expect(segment.key).toBe(values.key);
+    expect(segment.fieldName).toBe(values.fieldName);
     expect(segment.value).toEqual(values.value);
-    expect(segment.description).toBe(values.description);
-    expect(segment.type).toBe(values.type);
-    expect(segment.expandable).toBe(values.expandable);
-    expect(segment.limited).toBe(values.limited);
+    expect(segment.stringValue).toBe(values.stringValue);
 }

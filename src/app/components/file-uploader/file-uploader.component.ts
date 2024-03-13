@@ -12,9 +12,9 @@ export class FileUploaderComponent {
     public buttonText = 'SELECT FILE';
 
     @Output()
-    public fileSelect: EventEmitter<File> = new EventEmitter<File>();
+    public fileSelect = new EventEmitter<File>();
 
-    public onFileSelect(event: Event): void {
+    protected onFileSelect(event: Event): void {
         const file = (event.target as HTMLInputElement)?.files?.[0];
 
         if (file) {

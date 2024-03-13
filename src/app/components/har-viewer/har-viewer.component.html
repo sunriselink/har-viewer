@@ -16,6 +16,6 @@
     </div>
 </div>
 
-<ng-container *ngFor="let entry of entries$ | async">
+@for (entry of entries(); track entry.id) {
     <app-har-entry [entry]="entry"></app-har-entry>
-</ng-container>
+}

@@ -17,23 +17,25 @@ describe('Pipe: Size', () => {
         expect(pipe.transform(-1000000)).toBe('-1000000 B');
     });
 
-    it('should convert value to KB and MB', () => {
-        const kb = 1024;
-        const mb = kb * 1024;
-        const gb = mb * 1024;
-        const tb = gb * 1024;
+    it('should convert value to other units', () => {
+        const kb = 1000;
+        const mb = kb * 1000;
+        const gb = mb * 1000;
+        const tb = gb * 1000;
+        const pb = tb * 1000;
 
-        expect(pipe.transform(kb - 1)).toBe('1023 B');
-        expect(pipe.transform(kb)).toBe('1 KB');
+        expect(pipe.transform(kb - 1)).toBe('999 B');
+        expect(pipe.transform(kb)).toBe('1 kB');
         expect(pipe.transform(mb)).toBe('1 MB');
-        expect(pipe.transform(gb)).toBe('1024 MB');
-        expect(pipe.transform(tb)).toBe('1048576 MB');
+        expect(pipe.transform(gb)).toBe('1 GB');
+        expect(pipe.transform(tb)).toBe('1000 GB');
+        expect(pipe.transform(pb)).toBe('1000000 GB');
     });
 
     it('should return two decimal places (excluding zeros)', () => {
-        expect(pipe.transform(1234)).toBe('1.21 KB');
-        expect(pipe.transform(1054)).toBe('1.03 KB');
-        expect(pipe.transform(1124)).toBe('1.1 KB');
-        expect(pipe.transform(1024)).toBe('1 KB');
+        expect(pipe.transform(1210)).toBe('1.21 kB');
+        expect(pipe.transform(1030)).toBe('1.03 kB');
+        expect(pipe.transform(1100)).toBe('1.1 kB');
+        expect(pipe.transform(1000)).toBe('1 kB');
     });
 });

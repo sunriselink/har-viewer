@@ -28,7 +28,33 @@
             "style": "kebab-case"
           }
         ],
-        "@angular-eslint/prefer-on-push-component-change-detection": ["error"]
+        "@angular-eslint/prefer-on-push-component-change-detection": "error",
+        "@typescript-eslint/explicit-member-accessibility": [
+          "error",
+          {
+            "overrides": {
+              "constructors": "no-public"
+            }
+          }
+        ],
+        "@typescript-eslint/explicit-function-return-type": [
+          "error",
+          {
+            "allowExpressions": true
+          }
+        ],
+        "no-empty-function": "off",
+        "@typescript-eslint/no-empty-function": [
+          "error",
+          { "allow": ["private-constructors", "protected-constructors"] }
+        ],
+        "eqeqeq": ["error", "always", { "null": "ignore" }]
+      }
+    },
+    {
+      "files": ["*.spec.ts"],
+      "rules": {
+        "@angular-eslint/prefer-on-push-component-change-detection": "off"
       }
     },
     {

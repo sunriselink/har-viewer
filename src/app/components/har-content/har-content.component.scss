@@ -3,15 +3,17 @@
 }
 
 pre {
-  overflow-y: auto;
+  flex: 1;
+  white-space: normal;
+  word-break: break-all;
+  margin: 0;
 }
 
 .static-text {
-  position: relative;
+  display: flex;
+  align-items: flex-start;
 }
 
 .flat-button {
-  position: absolute;
-  top: 0;
-  right: 0;
+  margin-left: 8px;
 }

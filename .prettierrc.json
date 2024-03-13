@@ -13,7 +13,7 @@
   "htmlWhitespaceSensitivity": "ignore",
   "overrides": [
     {
-      "files": ["*.js", "*.ts", "*.html"],
+      "files": ["*.js", "*.mjs", "*.ts", "*.html"],
       "options": {
         "tabWidth": 4
       }

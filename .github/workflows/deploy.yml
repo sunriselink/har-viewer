@@ -1,12 +1,23 @@
 name: HAR Viewer Deployer
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      pages_branch:
+        description: "GitHub Pages branch"
+        required: true
+        default: "gh-pages"
+        type: choice
+        options:
+          - "gh-pages"
+          - "gh-pages-test"
 
 jobs:
   deploy:
     runs-on: ubuntu-20.04
     env:
       NODE_ENV: production
+      PAGES_BRANCH: ${{ inputs.pages_branch }}
     steps:
       - uses: actions/checkout@v4
       - name: Set up Node.js
@@ -22,7 +33,7 @@ jobs:
           mkdir output
           git config --global user.email "noreply@github.com"
           git config --global user.name "${GITHUB_ACTOR}"
-          git clone https://${{ secrets.ACCESS_TOKEN }}@github.com/sunriselink/har-viewer.git --branch gh-pages --single-branch ./output
+          git clone https://${{ secrets.ACCESS_TOKEN }}@github.com/sunriselink/har-viewer.git --branch ${PAGES_BRANCH} --single-branch ./output
       - name: Deploy
         working-directory: output
         run: |
@@ -30,7 +41,7 @@ jobs:
           cp -rv ../dist/har-viewer/browser/** .
           cp -v ../dist/har-viewer/3rdpartylicenses.txt .
           git add --all
-          git commit -m "Update $(date +'%Y-%m-%d %H:%M:%S')"
+          git commit -m "Update $(date +'%Y-%m-%d %H:%M:%S %:z')"
           git push
       - name: Send Telegram Notification
         run: |

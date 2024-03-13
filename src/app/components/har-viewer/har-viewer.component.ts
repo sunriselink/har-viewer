@@ -1,10 +1,11 @@
-import { AsyncPipe, NgForOf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
-import { combineLatest, debounceTime, map, Observable, ReplaySubject, startWith } from 'rxjs';
-import { IHAR, IHAREntry } from '../../types/har-log';
+import { debounceTime, map } from 'rxjs';
+import { HAREntry } from '../../models/har-entry';
+import { IHAR } from '../../types/har-log';
 import { HarEntryComponent } from '../har-entry/har-entry.component';
-import { HarViewerFilters } from './har-viewer-filters';
+import { HarViewerFilters, HarViewerFiltersValue } from './har-viewer-filters';
 
 @Component({
     selector: 'app-har-viewer',
@@ -12,37 +13,31 @@ import { HarViewerFilters } from './har-viewer-filters';
     templateUrl: './har-viewer.component.html',
     styleUrl: './har-viewer.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [ReactiveFormsModule, AsyncPipe, NgForOf, HarEntryComponent],
+    imports: [ReactiveFormsModule, HarEntryComponent],
 })
 export class HarViewerComponent {
-    @Input({ required: true })
-    public set harLog(value: IHAR) {
-        this.harLog$$.next(value);
-    }
+    public harLog = input.required<IHAR>();
 
-    protected readonly entries$: Observable<IHAREntry[]>;
     protected readonly form = new HarViewerFilters();
-
-    private readonly harLog$$ = new ReplaySubject<IHAR>(1);
+    protected readonly entries: Signal<HAREntry[]>;
 
     constructor() {
-        this.entries$ = this.createEntries();
+        this.entries = this.createEntries();
     }
 
-    private createEntries(): Observable<IHAREntry[]> {
-        const filter$ = this.form.valueChanges.pipe(debounceTime(300), startWith(this.form.value));
-
-        return combineLatest([this.harLog$$, filter$]).pipe(
-            map(([harLog]) => {
-                const entries: IHAREntry[] = harLog.log?.entries || [];
-                return entries.filter((entry: IHAREntry) => this.filterEntry(entry));
-            }),
+    private createEntries(): Signal<HAREntry[]> {
+        const filters$ = this.form.valueChanges.pipe(
+            debounceTime(300),
+            map(() => this.form.getRawValue()),
         );
+
+        const filters = toSignal(filters$, { initialValue: this.form.getRawValue() });
+        const entries = computed(() => this.harLog().log?.entries?.map(x => new HAREntry(x)) ?? []);
+
+        return computed(() => entries().filter(x => this.filterEntry(x, filters())));
     }
 
-    private filterEntry(entry: IHAREntry): boolean {
-        const filters = this.form.value;
-
+    private filterEntry(entry: HAREntry, filters: HarViewerFiltersValue): boolean {
         if (!filters.successful && entry.response?.status < 400) {
             return false;
         }

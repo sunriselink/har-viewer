@@ -1,10 +1,8 @@
-import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
-import { map, Observable, ReplaySubject } from 'rxjs';
+import { ChangeDetectionStrategy, Component, computed, inject, input, Signal } from '@angular/core';
 import { JSONValue } from '../../types/json-value';
-import { ModalService } from '../modal/modal.service';
+import { JsonSegmentComponent } from './json-segment.component';
 import { JsonViewerService } from './json-viewer.service';
-import { Segment } from './segments/segment';
+import { Segment } from './segments/base/segment';
 
 @Component({
     selector: 'app-json-viewer',
@@ -12,32 +10,16 @@ import { Segment } from './segments/segment';
     templateUrl: './json-viewer.component.html',
     styleUrl: './json-viewer.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [AsyncPipe, NgForOf, NgIf],
+    imports: [JsonSegmentComponent],
 })
 export class JsonViewerComponent {
-    @Input({ required: true })
-    public set json(value: JSONValue) {
-        this.json$$.next(value);
-    }
+    public json = input.required<JSONValue>();
 
-    protected readonly segments$: Observable<Segment[]>;
+    protected readonly segments = this.getSegments();
 
     private readonly jsonViewerService = inject(JsonViewerService);
-    private readonly modalService = inject(ModalService);
 
-    private readonly json$$ = new ReplaySubject<JSONValue>(1);
-
-    constructor() {
-        this.segments$ = this.json$$.pipe(map((json: JSONValue) => this.jsonViewerService.createSegments(json)));
-    }
-
-    public toggle(segment: Segment): void {
-        if (segment.expandable) {
-            segment.toggle();
-        }
-    }
-
-    public showMore(segment: Segment): void {
-        this.modalService.open(segment.value as string);
+    private getSegments(): Signal<Segment[]> {
+        return computed(() => this.jsonViewerService.createSegments(this.json()));
     }
 }

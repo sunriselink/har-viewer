@@ -1,18 +1,16 @@
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { distinctUntilChanged, map, Observable, ReplaySubject } from 'rxjs';
+import { ChangeDetectionStrategy, Component, computed, inject, input, Signal } from '@angular/core';
 import { JSONValue } from '../../types/json-value';
 import { Unsafe } from '../../types/unsafe';
 import { truncate } from '../../utils/truncate';
 import { JsonViewerComponent } from '../json-viewer/json-viewer.component';
-import { ModalService } from '../modal/modal.service';
+import { StringContentService } from '../string-content-modal/string-content.service';
 
 interface ITextContent {
     full: string;
     limited: string;
 }
 
-const STRING_LENGTH_LIMIT = 1024;
+const STRING_LENGTH_LIMIT = 512;
 
 @Component({
     selector: 'app-har-content',
@@ -20,31 +18,26 @@ const STRING_LENGTH_LIMIT = 1024;
     templateUrl: './har-content.component.html',
     styleUrl: './har-content.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [NgIf, AsyncPipe, JsonViewerComponent],
+    imports: [JsonViewerComponent],
 })
 export class HarContentComponent {
-    @Input({ required: true })
-    public set content(value: Unsafe<string>) {
-        this.content$$.next(value);
+    public content = input.required<string>();
+
+    protected readonly text = this.createTextSignal();
+    protected readonly json = this.createJsonSignal();
+
+    private readonly stringContentService = inject(StringContentService);
+
+    protected showMore(): void {
+        this.stringContentService.openModal(this.text().full);
     }
 
-    protected readonly text$: Observable<ITextContent>;
-    protected readonly json$: Observable<Unsafe<JSONValue>>;
-
-    private readonly content$$ = new ReplaySubject<Unsafe<string>>(1);
-
-    constructor(private modalService: ModalService) {
-        this.text$ = this.content$$.pipe(
-            map(text => text ?? ''),
-            distinctUntilChanged(),
-            map(text => this.mapText(text)),
-        );
-
-        this.json$ = this.text$.pipe(map((content: ITextContent) => this.tryParseJSON(content.full)));
+    private createTextSignal(): Signal<ITextContent> {
+        return computed(() => this.mapText(this.content()));
     }
 
-    protected showMore(text: string): void {
-        this.modalService.open(text);
+    private createJsonSignal(): Signal<JSONValue> {
+        return computed(() => this.tryParseJSON(this.text().full));
     }
 
     private mapText(text: string): ITextContent {

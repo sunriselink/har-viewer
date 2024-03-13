@@ -1,19 +1,19 @@
 import { JSONValue } from '../../../types/json-value';
-import { Segment, SegmentBuilder } from './segment';
+import { Segment } from './base/segment';
+import { SegmentBuilder } from './base/segment-builder';
 
 export class NumberSegment extends Segment<number> {
-    constructor(key: string, value: number) {
-        super(key, value, 'number');
-        this._description = `${value}`;
+    public override stringify(value: number): string {
+        return `${value}`;
     }
 }
 
 export class NumberSegmentBuilder extends SegmentBuilder<number, NumberSegment> {
-    public build(key: string, value: number): NumberSegment {
-        return new NumberSegment(key, value);
+    public override canBuild(value: JSONValue): boolean {
+        return typeof value === 'number';
     }
 
-    public canBuild(value: JSONValue): boolean {
-        return typeof value === 'number';
+    public override build(fieldName: string, value: number): NumberSegment {
+        return new NumberSegment(fieldName, value);
     }
 }

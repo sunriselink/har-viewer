@@ -1,38 +1,39 @@
-import { Directive, EventEmitter, HostListener, OnDestroy, OnInit, Output } from '@angular/core';
-import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
+import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { Unsafe } from '../types/unsafe';
 
 @Directive({
     selector: '[appFileDropZone]',
     standalone: true,
 })
-export class FileDropZoneDirective implements OnInit, OnDestroy {
+export class FileDropZoneDirective {
     @Output()
-    public fileDrop: EventEmitter<File> = new EventEmitter<File>();
+    public fileDrop = new EventEmitter<File>();
 
     @Output()
-    public fileOver: EventEmitter<boolean> = new EventEmitter<boolean>();
+    public fileOver = new EventEmitter<boolean>();
 
     @HostListener('dragover', ['$event'])
-    public onDragOver(event: DragEvent): void {
+    protected onDragOver(event: DragEvent): void {
         event.preventDefault();
         event.stopPropagation();
-        this.fileOver$$.next(true);
+        this.fileOver$.next(true);
     }
 
     @HostListener('dragleave', ['$event'])
-    public onDragLeave(event: DragEvent): void {
+    protected onDragLeave(event: DragEvent): void {
         event.preventDefault();
         event.stopPropagation();
-        this.fileOver$$.next(false);
+        this.fileOver$.next(false);
     }
 
     @HostListener('drop', ['$event'])
-    public onDrop(event: DragEvent): void {
+    protected onDrop(event: DragEvent): void {
         event.preventDefault();
         event.stopPropagation();
 
-        this.fileOver$$.next(false);
+        this.fileOver$.next(false);
 
         const file = this.getFile(event);
 
@@ -41,18 +42,16 @@ export class FileDropZoneDirective implements OnInit, OnDestroy {
         }
     }
 
-    private fileOver$$: Subject<boolean> = new Subject<boolean>();
-    private destroy$$: Subject<void> = new Subject<void>();
+    private readonly fileOver$ = new Subject<boolean>();
 
-    public ngOnInit(): void {
-        this.fileOver$$
-            .pipe(distinctUntilChanged(), debounceTime(50), takeUntil(this.destroy$$))
-            .subscribe((value: boolean) => this.fileOver.emit(value));
+    constructor() {
+        this.createFileOverSubscription();
     }
 
-    public ngOnDestroy(): void {
-        this.destroy$$.next();
-        this.destroy$$.complete();
+    private createFileOverSubscription(): void {
+        this.fileOver$
+            .pipe(distinctUntilChanged(), debounceTime(50), takeUntilDestroyed())
+            .subscribe((value: boolean) => this.fileOver.emit(value));
     }
 
     private getFile(event: DragEvent): Unsafe<File> {

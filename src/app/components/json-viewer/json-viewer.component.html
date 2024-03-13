@@ -1,24 +1,3 @@
-<div *ngFor="let segment of segments$ | async" class="segment">
-    <div
-        class="segment__header"
-        [class.segment__header_expandable]="segment.expandable"
-        [class.segment__header_expanded]="segment.expanded"
-        (click)="toggle(segment)"
-    >
-        <div *ngIf="segment.expandable" class="segment__toggle"></div>
-        <span class="segment__key">{{ segment.key }}</span>
-        <span class="segment__separator">:&nbsp;</span>
-        <span
-            *ngIf="!segment.expandable || !segment.expanded"
-            class="segment__description segment__type-{{ segment.type }}"
-        >
-            <span>{{ segment.description }}</span>
-            <button *ngIf="segment.limited" class="flat-button segment__more" (click)="showMore(segment)">
-                Show more...
-            </button>
-        </span>
-    </div>
-    <div *ngIf="segment.expandable && segment.expanded" class="segment__children">
-        <app-json-viewer [json]="segment.value"></app-json-viewer>
-    </div>
-</div>
+@for (segment of segments(); track segment.id) {
+    <app-json-segment [segment]="segment"></app-json-segment>
+}

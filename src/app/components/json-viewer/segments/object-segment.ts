@@ -1,20 +1,20 @@
-import { JSONValue } from '../../../types/json-value';
-import { Segment, SegmentBuilder } from './segment';
+import { JSONObject, JSONValue } from '../../../types/json-value';
+import { isObjectOrArray } from '../../../utils/is-object-or-array';
+import { Segment } from './base/segment';
+import { SegmentBuilder } from './base/segment-builder';
 
-export class ObjectSegment extends Segment {
-    constructor(key: string, value: JSONValue) {
-        super(key, value, 'object');
-        this._expandable = true;
-        this._description = `Object ${JSON.stringify(value)}`;
+export class ObjectSegment extends Segment<JSONObject> {
+    public override stringify(value: JSONValue): string {
+        return `Object ${JSON.stringify(value)}`;
     }
 }
 
-export class ObjectSegmentBuilder extends SegmentBuilder<JSONValue, ObjectSegment> {
-    public build(key: string, value: JSONValue): ObjectSegment {
-        return new ObjectSegment(key, value);
+export class ObjectSegmentBuilder extends SegmentBuilder<JSONObject, ObjectSegment> {
+    public canBuild(value: JSONValue): boolean {
+        return isObjectOrArray(value) && !Array.isArray(value);
     }
 
-    public canBuild(value: JSONValue): boolean {
-        return typeof value === 'object' && value !== null && !Array.isArray(value) && !(value instanceof Date);
+    public override build(fieldName: string, value: JSONObject): ObjectSegment {
+        return new ObjectSegment(fieldName, value);
     }
 }

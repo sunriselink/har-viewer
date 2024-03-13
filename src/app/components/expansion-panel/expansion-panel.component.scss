@@ -1,9 +1,13 @@
 :host {
   display: block;
 
-  &.show-toggle {
+  &.show-arrow {
     padding-left: 16px;
   }
+}
+
+.header {
+  cursor: pointer;
 }
 
 .toggle {

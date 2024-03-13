@@ -1,44 +1,44 @@
 export interface IHAR {
-    log: IHARLog;
+    readonly log?: IHARLog;
 }
 
 export interface IHARLog {
-    entries: IHAREntry[];
+    readonly entries?: IHAREntry[];
 }
 
 export interface IHAREntry {
-    _fromCache: 'disk';
-    request: IHAREntryRequest;
-    response: IHAREntryResponse;
-    serverIPAddress: string;
-    startedDateTime: string;
-    time?: number;
+    readonly _fromCache: 'disk';
+    readonly request: IHAREntryRequest;
+    readonly response: IHAREntryResponse;
+    readonly serverIPAddress: string;
+    readonly startedDateTime: string;
+    readonly time?: number;
 }
 
 export interface IHAREntryRequest {
-    bodySize: number;
-    method: string;
-    url: string;
-    headers: IHAREntryKeyValue[];
-    queryString: IHAREntryKeyValue[];
-    postData?: IHAREntryData;
+    readonly bodySize: number;
+    readonly method: string;
+    readonly url: string;
+    readonly headers: IHAREntryKeyValue[];
+    readonly queryString: IHAREntryKeyValue[];
+    readonly postData?: IHAREntryData;
 }
 
 export interface IHAREntryResponse {
-    bodySize: number;
-    status: number;
-    redirectURL: string;
-    headers: IHAREntryKeyValue[];
-    content?: IHAREntryData;
+    readonly bodySize: number;
+    readonly status: number;
+    readonly redirectURL: string;
+    readonly headers: IHAREntryKeyValue[];
+    readonly content?: IHAREntryData;
 }
 
 export interface IHAREntryData {
-    size: number;
-    mimeType: string;
-    text: string;
+    readonly size: number;
+    readonly mimeType: string;
+    readonly text: string;
 }
 
 export interface IHAREntryKeyValue {
-    name: string;
-    value: string;
+    readonly name: string;
+    readonly value: string;
 }

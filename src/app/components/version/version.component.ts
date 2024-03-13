@@ -1,7 +1,7 @@
-import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SwUpdate } from '@angular/service-worker';
-import { filter, map, Observable, startWith } from 'rxjs';
+import { map } from 'rxjs';
 import { AppInfoService } from '../../services/app-info.service';
 
 @Component({
@@ -10,36 +10,33 @@ import { AppInfoService } from '../../services/app-info.service';
     templateUrl: './version.component.html',
     styleUrl: './version.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [AsyncPipe, NgIf],
 })
 export class VersionComponent implements OnInit {
-    public readonly newVersionAvailable$: Observable<boolean>;
+    protected readonly newVersionAvailable: Signal<boolean>;
 
     private readonly infoService = inject(AppInfoService);
     private readonly swUpdate = inject(SwUpdate);
 
     constructor() {
-        this.newVersionAvailable$ = this.swUpdate.versionUpdates.pipe(
-            filter(event => event.type === 'VERSION_READY'),
-            map(() => true),
-            startWith(false),
-        );
-    }
-
-    public get version(): string {
-        return this.infoService.production ? `v${this.infoService.version}` : 'develop';
+        this.newVersionAvailable = this.getNewVersionAvailable();
     }
 
     public ngOnInit(): void {
         this.showInfo();
     }
 
-    private showInfo() {
-        if (this.infoService.production) {
-            const branch = this.infoService.branch;
-            const commit = this.infoService.commit;
+    protected get version(): string {
+        return this.infoService.version ? `v${this.infoService.version}` : 'develop';
+    }
 
-            console.log(`HAR Viewer ${this.version} (${branch} ${commit})`);
+    private getNewVersionAvailable(): Signal<boolean> {
+        const stream$ = this.swUpdate.versionUpdates.pipe(map(event => event.type === 'VERSION_READY'));
+        return toSignal(stream$, { initialValue: false });
+    }
+
+    private showInfo(): void {
+        if (this.infoService.version) {
+            console.log(`HAR Viewer ${this.version} (${this.infoService.commit})`);
         }
     }
 }
