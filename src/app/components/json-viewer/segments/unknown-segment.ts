@@ -3,10 +3,6 @@ import { Segment } from './base/segment';
 import { SegmentBuilder } from './base/segment-builder';
 
 export class UnknownSegment extends Segment {
-    constructor(key: string, value: JSONValue) {
-        super(key, value);
-    }
-
     public override stringify(value: JSONValue): string {
         let stringValue: string;
 

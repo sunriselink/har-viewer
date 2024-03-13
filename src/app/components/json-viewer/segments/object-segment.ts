@@ -4,10 +4,6 @@ import { Segment } from './base/segment';
 import { SegmentBuilder } from './base/segment-builder';
 
 export class ObjectSegment extends Segment<JSONObject> {
-    constructor(key: string, value: JSONObject) {
-        super(key, value);
-    }
-
     public override stringify(value: JSONValue): string {
         return `Object ${JSON.stringify(value)}`;
     }

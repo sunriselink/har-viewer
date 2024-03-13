@@ -3,10 +3,6 @@ import { Segment } from './base/segment';
 import { SegmentBuilder } from './base/segment-builder';
 
 export class NullSegment extends Segment<null> {
-    constructor(key: string, value: null) {
-        super(key, value);
-    }
-
     public override stringify(): string {
         return 'null';
     }

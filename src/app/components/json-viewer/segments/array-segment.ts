@@ -3,10 +3,6 @@ import { Segment } from './base/segment';
 import { SegmentBuilder } from './base/segment-builder';
 
 export class ArraySegment extends Segment<JSONArray> {
-    constructor(key: string, value: JSONArray) {
-        super(key, value);
-    }
-
     public override stringify(value: JSONArray): string {
         return `Array[${value.length}] ${JSON.stringify(value)}`;
     }

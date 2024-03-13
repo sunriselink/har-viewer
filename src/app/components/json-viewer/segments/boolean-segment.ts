@@ -3,10 +3,6 @@ import { Segment } from './base/segment';
 import { SegmentBuilder } from './base/segment-builder';
 
 export class BooleanSegment extends Segment<boolean> {
-    constructor(key: string, value: boolean) {
-        super(key, value);
-    }
-
     public override stringify(value: boolean): string {
         return `${value}`;
     }

@@ -7,7 +7,7 @@ export abstract class Segment<T extends JSONValue = JSONValue> {
     public readonly value: T;
     public readonly stringValue: string;
 
-    protected constructor(fieldName: string, value: T) {
+    constructor(fieldName: string, value: T) {
         this.fieldName = fieldName;
         this.value = value;
         this.stringValue = this.stringify(value);
