@@ -1,5 +1,5 @@
 <div class="header" [class.header_expandable]="expandable()" [class.header_expanded]="expanded()" (click)="toggle()">
-    @if (expanded()) {
+    @if (expandable()) {
         <div class="toggle"></div>
     }
 
