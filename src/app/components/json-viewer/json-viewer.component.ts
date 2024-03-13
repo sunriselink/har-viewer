@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, Signal } from '@angular/core';
+import {
+    booleanAttribute,
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    inject,
+    Input,
+    input,
+    Signal,
+} from '@angular/core';
 import { JSONValue } from '../../types/json-value';
 import { JsonSegmentComponent } from './json-segment.component';
 import { JsonViewerService } from './json-viewer.service';
@@ -14,6 +23,9 @@ import { Segment } from './segments/base/segment';
 })
 export class JsonViewerComponent {
     public json = input.required<JSONValue>();
+
+    @Input({ transform: booleanAttribute })
+    public opened!: boolean;
 
     protected readonly segments = this.getSegments();
 

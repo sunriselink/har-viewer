@@ -1,9 +1,23 @@
-import { ChangeDetectionStrategy, Component, computed, forwardRef, inject, input, signal } from '@angular/core';
+import {
+    booleanAttribute,
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    forwardRef,
+    inject,
+    Input,
+    input,
+    OnInit,
+    signal,
+} from '@angular/core';
 import { Primitive } from '../../types/primitive';
+import { Unsafe } from '../../types/unsafe';
 import { isObjectOrArray } from '../../utils/is-object-or-array';
 import { StringContentService } from '../string-content-modal/string-content.service';
 import { JsonViewerComponent } from './json-viewer.component';
 import { Segment } from './segments/base/segment';
+
+type ExpandType = 'slim' | 'full';
 
 @Component({
     selector: 'app-json-segment',
@@ -13,11 +27,14 @@ import { Segment } from './segments/base/segment';
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [forwardRef(() => JsonViewerComponent)],
 })
-export class JsonSegmentComponent {
+export class JsonSegmentComponent implements OnInit {
     public segment = input.required<Segment>();
 
+    @Input({ transform: booleanAttribute })
+    public opened!: boolean;
+
     protected readonly expandable = computed(() => isObjectOrArray(this.segment().value));
-    protected readonly expanded = signal(false);
+    protected readonly expanded = signal<Unsafe<ExpandType>>(null);
 
     protected readonly isString = computed(() => this.isType('string'));
     protected readonly isNumber = computed(() => this.isType('number'));
@@ -27,8 +44,20 @@ export class JsonSegmentComponent {
 
     protected readonly stringContentService = inject(StringContentService);
 
-    protected toggle(): void {
-        this.expanded.update(x => !x);
+    public ngOnInit(): void {
+        if (this.opened) {
+            this.expanded.set('full');
+        }
+    }
+
+    protected toggle(event: MouseEvent): void {
+        this.expanded.update(state => {
+            if (state) {
+                return null;
+            } else {
+                return event.altKey ? 'full' : 'slim';
+            }
+        });
     }
 
     protected showMore(): void {
