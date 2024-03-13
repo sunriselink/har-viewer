@@ -1,4 +1,9 @@
-<div class="header" [class.header_expandable]="expandable()" [class.header_expanded]="expanded()" (click)="toggle()">
+<div
+    class="header"
+    [class.header_expandable]="expandable()"
+    [class.header_expanded]="expanded()"
+    (click)="toggle($event)"
+>
     @if (expandable()) {
         <div class="toggle"></div>
     }
@@ -23,5 +28,5 @@
 </div>
 
 @if (expanded()) {
-    <app-json-viewer class="children" [json]="segment().value"></app-json-viewer>
+    <app-json-viewer class="children" [json]="segment().value" [opened]="expanded() === 'full'"></app-json-viewer>
 }
