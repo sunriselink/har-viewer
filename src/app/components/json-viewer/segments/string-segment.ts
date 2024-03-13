@@ -12,7 +12,8 @@ export class StringSegment extends Segment<string> {
 
     public override stringify(value: string): string {
         if (value.length > STRING_LENGTH_LIMIT) {
-            value = truncate(value, STRING_LENGTH_LIMIT);
+            // 2 символа на кавычки
+            value = truncate(value, STRING_LENGTH_LIMIT - 2);
         }
 
         return `"${value}"`;

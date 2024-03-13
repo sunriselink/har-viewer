@@ -45,6 +45,6 @@ export class JsonSegmentComponent {
 
     private isLimited(): boolean {
         const value = this.segment().value;
-        return typeof value === 'string' && value.length !== this.segment().stringValue.length;
+        return typeof value === 'string' && value.length > this.segment().stringValue.length;
     }
 }
