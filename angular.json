@@ -30,7 +30,6 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "baseHref": "/har-viewer/",
               "budgets": [
                 {
                   "type": "initial",
