@@ -6,6 +6,14 @@
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
+  "file_handlers": [
+    {
+      "action": "/file_handler",
+      "accept": {
+        "application/json": [".har"]
+      }
+    }
+  ],
   "icons": [
     {
       "src": "assets/icons/icon-72x72.png",
