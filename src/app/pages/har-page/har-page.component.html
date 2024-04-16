@@ -1,0 +1,21 @@
+<div
+    class="drop"
+    appFileDropZone
+    [class.file-over]="fileOver()"
+    (fileOver)="fileOver.set($event)"
+    (fileDrop)="loadHAR($event)"
+>
+    @if (harLog(); as har) {
+        <app-har-viewer [harLog]="har"></app-har-viewer>
+    } @else {
+        <div class="upload">
+            <app-file-uploader
+                buttonText="SELECT HAR FILE"
+                accept=".har"
+                (fileSelect)="loadHAR($event)"
+            ></app-file-uploader>
+
+            <div class="upload__tip">Or drop file here</div>
+        </div>
+    }
+</div>

@@ -11,6 +11,9 @@ export class FileUploaderComponent {
     @Input()
     public buttonText = 'SELECT FILE';
 
+    @Input()
+    public accept?: string;
+
     @Output()
     public fileSelect = new EventEmitter<File>();
 

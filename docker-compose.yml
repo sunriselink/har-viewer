@@ -1,6 +1,18 @@
 version: "3"
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: .docker/web.dockerfile
+      args:
+        - NODEJS_IMAGE=${NODEJS_IMAGE}
     ports:
       - "8080:80"
+
+  lt:
+    build:
+      context: .docker
+      dockerfile: lt.dockerfile
+      args:
+        - NODEJS_IMAGE=${NODEJS_IMAGE}
+    command: lt --port 80 --local-host web
