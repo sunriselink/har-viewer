@@ -8,7 +8,7 @@
   "start_url": "./",
   "file_handlers": [
     {
-      "action": "/file_handler",
+      "action": "./file_handler",
       "accept": {
         "application/json": [".har"]
       }
